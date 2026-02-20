@@ -626,6 +626,9 @@
       var nombres = svgEl.querySelector('#NOMBRES');
       if(nombres){
         svgEl.appendChild(nombres);
+        nombres.querySelectorAll('[clip-path]').forEach(function(g){
+          g.removeAttribute('clip-path');
+        });
         nombres.querySelectorAll('path, polyline').forEach(function(p){
           if(p.getAttribute('fill') === '#dfb834') {
             p.style.display = 'none';
