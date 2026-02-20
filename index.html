@@ -728,13 +728,12 @@
   }
 
   function updateStickyBtn(){
-    if(stickyMode==='getit'){
-      var t=getTotal();
-      var tabId = getActiveTabId();
-      var label = tabId==='mesas' ? 'Comprar ahora' : 'Comprar';
-      if(t>0){ stickyBtn.textContent=t.toFixed(2)+' \u20ac \u2014 '+label; stickyBtn.disabled=false; }
-      else { stickyBtn.textContent='Selecciona entrada'; stickyBtn.disabled=false; }
-    }
+    hasSeen=true; stickyMode='getit';
+    var t=getTotal();
+    var tabId = getActiveTabId();
+    var label = tabId==='mesas' ? 'Comprar ahora' : 'Comprar';
+    if(t>0){ stickyBtn.textContent=t.toFixed(2)+' \u20ac \u2014 '+label; stickyBtn.disabled=false; }
+    else { stickyBtn.textContent='Selecciona entrada'; stickyBtn.disabled=false; }
   }
 
   var obs = new IntersectionObserver(function(entries){
