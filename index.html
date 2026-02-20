@@ -166,12 +166,19 @@
     .ticket-row .ticket-notch::after { bottom:0; border:1px solid var(--ticket-border); border-bottom:none; border-radius:8px 8px 0 0; }
 
     /* ═══ Radio-style rows (Mesas) ═══ */
-    .ticket-row-radio { display:flex; align-items:center; gap:12px; padding:16px; border:1px solid var(--color-border); border-radius:10px; margin-bottom:12px; cursor:pointer; transition:border-color 0.2s, background 0.2s; }
-    .ticket-row-radio .radio-circle { width:22px; height:22px; border-radius:50%; border:2px solid var(--color-border); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s; }
+    .ticket-row-radio { display:flex; align-items:flex-start; gap:12px; padding:16px; border:1px solid var(--color-border); border-radius:10px; margin-bottom:12px; cursor:pointer; transition:border-color 0.2s, background 0.2s; }
+    .ticket-row-radio .radio-circle { width:22px; height:22px; border-radius:50%; border:2px solid var(--color-border); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s; margin-top:2px; }
     .ticket-row-radio .radio-circle::after { content:''; width:12px; height:12px; border-radius:50%; background:transparent; transition:background 0.2s; }
     .ticket-row-radio .radio-body { flex:1; min-width:0; }
     .ticket-row-radio .radio-name { font-size:14px; font-weight:600; line-height:20px; color:var(--color-text-main); }
-    .ticket-row-radio .radio-info { font-size:13px; color:var(--color-primary); cursor:pointer; margin-top:2px; }
+    .ticket-row-radio .radio-desc { font-size:13px; color:var(--color-text-subtle); margin-top:2px; }
+    .ticket-row-radio .radio-info-toggle { font-size:12px; color:var(--color-primary); cursor:pointer; margin-top:4px; font-weight:500; }
+    .ticket-row-radio .radio-info-toggle:hover { text-decoration:underline; }
+    .ticket-row-radio .radio-more-info { margin-top:8px; padding:10px; background:#fff; border-radius:6px; border:1px solid var(--color-border-light); }
+    .ticket-row-radio .radio-info-title { font-size:12px; font-weight:600; line-height:18px; color:var(--color-text-main); margin-bottom:6px; }
+    .ticket-row-radio .radio-info-list { list-style:none; padding:0; margin:0; }
+    .ticket-row-radio .radio-info-list li { font-size:12px; line-height:18px; color:var(--color-text-subtle); padding-left:14px; position:relative; }
+    .ticket-row-radio .radio-info-list li::before { content:'•'; position:absolute; left:2px; color:var(--color-text); }
     .ticket-row-radio .radio-price { font-size:15px; font-weight:700; color:var(--color-text-main); white-space:nowrap; }
     .ticket-row-radio.active { border-color:var(--color-primary); background:var(--color-primary-weak); }
     .ticket-row-radio.active .radio-circle { border-color:var(--color-primary); }
@@ -457,7 +464,9 @@
 
   ZONES.forEach(function(z){
     TICKET_TABS[1].tickets.push({
-      name: z.name, desc: z.capacity+' personas · '+z.bottles, price: z.price, zoneId: z.id
+      name: z.name, desc: z.capacity+' personas · '+z.bottles, price: z.price, zoneId: z.id,
+      infoTitle:'Mesa para '+z.capacity+' persona'+(z.capacity>1?'s':'')+' incluye:',
+      infoItems: z.perks
     });
   });
 
@@ -502,12 +511,23 @@
 
     if(tab.id === 'mesas'){
       tab.tickets.forEach(function(t, ri){
+        var infoHtml = '';
+        if(t.infoItems){
+          var items = t.infoItems.map(function(it){ return '<li>'+it+'</li>'; }).join('');
+          infoHtml =
+            '<div class="radio-more-info" style="display:none">'+
+              '<div class="radio-info-title">'+t.infoTitle+'</div>'+
+              '<ul class="radio-info-list">'+items+'</ul>'+
+            '</div>';
+        }
         panel.innerHTML +=
           '<div class="ticket-row-radio'+(ri===0?' active':'')+'" data-price="'+t.price+'" data-zone="'+t.zoneId+'">'+
             '<div class="radio-circle"></div>'+
             '<div class="radio-body">'+
               '<div class="radio-name">'+t.name+'</div>'+
-              '<div class="radio-info">'+t.desc+'</div>'+
+              '<div class="radio-info-toggle">Más info</div>'+
+              infoHtml+
+              '<div class="radio-desc">'+t.desc+'</div>'+
             '</div>'+
             '<div class="radio-price">'+t.price.toFixed(2)+' \u20ac</div>'+
           '</div>';
@@ -741,10 +761,10 @@
      MESAS: radio click handler
      ═══════════════════════════ */
   ticketPanels.addEventListener('click', function(e){
-    var toggle = e.target.closest('.ticket-info-toggle');
+    var toggle = e.target.closest('.ticket-info-toggle') || e.target.closest('.radio-info-toggle');
     if(toggle){
       var info = toggle.nextElementSibling;
-      if(info && info.classList.contains('ticket-more-info')){
+      if(info && (info.classList.contains('ticket-more-info') || info.classList.contains('radio-more-info'))){
         var open = info.style.display !== 'none';
         info.style.display = open ? 'none' : '';
         toggle.textContent = open ? 'Más info' : 'Menos info';
