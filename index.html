@@ -624,18 +624,8 @@
       var nombres = svgEl.querySelector('#NOMBRES');
       if(nombres){
         svgEl.appendChild(nombres);
-        var LABEL_FILL_MAP = [
-          'palco-izq','pista-izq','dj-booth','backstage-dcha','backstage-izq',
-          'cristal','cielo','vip','vip','palco-dcha',
-          'backstage-exp','backstage-exp','pista-dcha'
-        ];
-        var labelGroups = nombres.querySelectorAll(':scope > g');
-        labelGroups.forEach(function(lg, i){
-          var zoneId = LABEL_FILL_MAP[i] || '';
-          lg.setAttribute('data-label-zone', zoneId);
-          lg.querySelectorAll('path, polyline').forEach(function(p){
-            p.style.fill = '#666';
-          });
+        nombres.querySelectorAll('path, polyline').forEach(function(p){
+          p.style.fill = '#333';
         });
       }
 
@@ -666,7 +656,6 @@
     if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
     if(backstageEl) backstageEl.classList.toggle('active', !!active);
     mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
-    updateLabels(active ? 'dancefloor' : null);
   }
 
   function highlightMapZone(zoneId){
@@ -675,23 +664,6 @@
     mapZoneEls.forEach(function(el){
       var z = el.getAttribute('data-zone');
       el.classList.toggle('active', z===zoneId);
-    });
-    updateLabels(zoneId);
-  }
-
-  function updateLabels(activeZone){
-    var labelGroups = mapWrap.querySelectorAll('#NOMBRES > g');
-    labelGroups.forEach(function(lg){
-      var lz = lg.getAttribute('data-label-zone');
-      var isActive = false;
-      if(activeZone === 'dancefloor'){
-        isActive = (lz === 'pista-izq' || lz === 'pista-dcha');
-      } else if(activeZone){
-        isActive = (lz === activeZone);
-      }
-      lg.querySelectorAll('path, polyline').forEach(function(p){
-        p.style.fill = isActive ? '#fff' : '#666';
-      });
     });
   }
 
