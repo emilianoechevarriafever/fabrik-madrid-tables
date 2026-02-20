@@ -731,7 +731,7 @@
     hasSeen=true; stickyMode='getit';
     var t=getTotal();
     var tabId = getActiveTabId();
-    var label = tabId==='mesas' ? 'Comprar ahora' : 'Comprar';
+    var label = 'Comprar ahora';
     if(t>0){ stickyBtn.textContent=t.toFixed(2)+' \u20ac \u2014 '+label; stickyBtn.disabled=false; }
     else { stickyBtn.textContent='Selecciona entrada'; stickyBtn.disabled=false; }
   }
