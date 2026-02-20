@@ -100,12 +100,13 @@
     .map-title { font-size:14px; font-weight:600; color:var(--color-text-subtle); margin-bottom:12px; text-align:center; }
     .floor-map-wrap { position:relative; width:100%; background:#fff; border-radius:12px; overflow:hidden; padding:8px; border:1px solid var(--color-border); min-height:200px; }
     .floor-map-wrap svg { width:100%; height:auto; display:block; }
-    .map-zone, .map-zone path { fill:#bbb; stroke:#999; stroke-width:0.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
-    .map-zone:hover, .map-zone:hover path { fill:#999; stroke:#777; }
+    .map-zone, .map-zone path { fill:#ccc; stroke:#aaa; stroke-width:0.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
+    .map-zone:hover, .map-zone:hover path { fill:#aaa; stroke:#888; }
     .map-zone.active, .map-zone.active path { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:1; }
     .map-dancefloor { fill:#e8e8e8; stroke:#ccc; stroke-width:0.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
     .map-dancefloor:hover { fill:#d5d5d5; stroke:#aaa; }
     .map-dancefloor.active { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:1; }
+    #sala { pointer-events:none; filter:saturate(0) brightness(0.55); }
     #NOMBRES { pointer-events:none; }
     #NOMBRES path, #NOMBRES polyline { paint-order:stroke fill; stroke:#fff; stroke-width:3px; stroke-linejoin:round; }
 
@@ -631,6 +632,13 @@
             p.style.fill = '#333';
           }
         });
+      }
+
+      var sala = svgEl.querySelector('#sala');
+      var etiquetasGroup = svgEl.querySelector('#etiquetas');
+      if(sala && etiquetasGroup){
+        sala.removeAttribute('display');
+        svgEl.insertBefore(sala, etiquetasGroup);
       }
 
       Object.keys(SVG_ZONE_MAP).forEach(function(svgId){
