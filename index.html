@@ -691,8 +691,21 @@
   }
 
   function updateLabelColors(){
+    var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
+    var dfBox = dfActive ? danceFloorEl.getBBox() : null;
+    var bsActive = backstageEl && backstageEl.classList.contains('active');
+    var bsBox = bsActive ? backstageEl.getBBox() : null;
     zoneLabelPairs.forEach(function(p){
-      p.label.style.fill = p.zone.classList.contains('active') ? '#fff' : '#333';
+      var active = p.zone.classList.contains('active');
+      if(!active){
+        var lb = p.label.getBBox();
+        var cx = lb.x + lb.width/2;
+        var cy = lb.y + lb.height/2;
+        var pad = 20;
+        if(dfActive && dfBox && cx>=dfBox.x-pad && cx<=dfBox.x+dfBox.width+pad && cy>=dfBox.y-pad && cy<=dfBox.y+dfBox.height+pad) active = true;
+        if(bsActive && bsBox && cx>=bsBox.x-pad && cx<=bsBox.x+bsBox.width+pad && cy>=bsBox.y-pad && cy<=bsBox.y+bsBox.height+pad) active = true;
+      }
+      p.label.style.fill = active ? '#fff' : '#333';
     });
   }
 
