@@ -621,7 +621,7 @@
       var etiquetasGroup = svgEl.querySelector('#etiquetas');
       if(sala && etiquetasGroup){
         sala.removeAttribute('display');
-        var pistaPoly = [[545,205],[780,350],[500,555],[235,410]];
+        var pistaPoly = [[545,225],[765,353],[478,538],[250,408]];
         function ptInPista(px,py){
           var inside = false;
           for(var i=0,j=pistaPoly.length-1;i<pistaPoly.length;j=i++){
@@ -700,15 +700,30 @@
   var labelsOnDanceFloor = ['pista-izq','pista-dcha'];
   var labelsOnBackstage = ['backstage-izq','backstage-dcha','backstage-area'];
 
+  function ptInShape(el, px, py){
+    try {
+      var svg = el.ownerSVGElement;
+      if(!svg) return false;
+      var pt = svg.createSVGPoint();
+      pt.x = px; pt.y = py;
+      return el.isPointInFill(pt);
+    } catch(e){ return false; }
+  }
+
   function updateLabelColors(){
     var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
     var bsActive = backstageEl && backstageEl.classList.contains('active');
-    var bsBox = (bsActive && backstageEl) ? backstageEl.getBBox() : null;
     zoneLabelPairs.forEach(function(p){
       var white = false;
       var zId = p.zone.getAttribute('data-zone');
       if(dfActive && labelsOnDanceFloor.indexOf(zId) !== -1) white = true;
-      if(bsActive && (p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1)) white = true;
+      if(bsActive){
+        if(p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1) white = true;
+        if(!white && backstageEl){
+          var lb = p.label.getBBox();
+          if(ptInShape(backstageEl, lb.x+lb.width/2, lb.y+lb.height/2)) white = true;
+        }
+      }
       p.label.style.fill = white ? '#fff' : '#333';
     });
     var nombresEl = mapWrap ? mapWrap.querySelector('#NOMBRES') : null;
@@ -719,12 +734,9 @@
         if(lp.style.display === 'none') return;
         if(mappedLabels.indexOf(lp) !== -1) return;
         var white = false;
-        if(bsActive && bsBox){
+        if(bsActive && backstageEl){
           var lb2 = lp.getBBox();
-          var cx2 = lb2.x + lb2.width/2;
-          var cy2 = lb2.y + lb2.height/2;
-          var pad2 = 40;
-          if(cx2>=bsBox.x-pad2 && cx2<=bsBox.x+bsBox.width+pad2 && cy2>=bsBox.y-pad2 && cy2<=bsBox.y+bsBox.height+pad2) white = true;
+          if(ptInShape(backstageEl, lb2.x+lb2.width/2, lb2.y+lb2.height/2)) white = true;
         }
         lp.style.fill = white ? '#fff' : '';
       });
