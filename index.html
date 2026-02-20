@@ -693,29 +693,16 @@
     });
   }
 
-  function pointInPolygon(px, py, poly){
-    var inside = false;
-    for(var i=0, j=poly.length-1; i<poly.length; j=i++){
-      var xi=poly[i][0], yi=poly[i][1], xj=poly[j][0], yj=poly[j][1];
-      if((yi>py)!==(yj>py) && px < (xj-xi)*(py-yi)/(yj-yi)+xi) inside = !inside;
-    }
-    return inside;
-  }
-
-  var dfPoly = [[509,251],[721,374],[507,507],[295,384]];
+  var danceFloorZoneIds = ['pista-izq','pista-dcha'];
 
   function updateLabelColors(){
     var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
     var bsActive = backstageEl && backstageEl.classList.contains('active');
-    var bsBox = bsActive ? backstageEl.getBBox() : null;
     zoneLabelPairs.forEach(function(p){
       var active = p.zone.classList.contains('active');
-      if(!active){
-        var lb = p.label.getBBox();
-        var cx = lb.x + lb.width/2;
-        var cy = lb.y + lb.height/2;
-        if(dfActive && pointInPolygon(cx, cy, dfPoly)) active = true;
-        if(bsActive && bsBox && cx>=bsBox.x && cx<=bsBox.x+bsBox.width && cy>=bsBox.y && cy<=bsBox.y+bsBox.height) active = true;
+      if(!active && dfActive){
+        var zId = p.zone.getAttribute('data-zone');
+        if(danceFloorZoneIds.indexOf(zId) !== -1) active = true;
       }
       p.label.style.fill = active ? '#fff' : '#333';
     });
