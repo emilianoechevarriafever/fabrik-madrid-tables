@@ -723,13 +723,13 @@
     var allZones = mapZoneEls.slice();
     if(backstageEl) allZones.push(backstageEl);
     if(danceFloorEl) allZones.push(danceFloorEl);
-    var pad = 20;
     labels.forEach(function(lp){
       if(lp.style.display === 'none') return;
       var lb = lp.getBBox();
       var cx = lb.x + lb.width/2;
       var cy = lb.y + lb.height/2;
       for(var i=0; i<allZones.length; i++){
+        var pad = (allZones[i] === backstageEl || allZones[i] === danceFloorEl) ? 80 : 20;
         var zb = allZones[i].getBBox();
         if(cx >= zb.x-pad && cx <= zb.x+zb.width+pad && cy >= zb.y-pad && cy <= zb.y+zb.height+pad){
           zoneLabelPairs.push({zone:allZones[i], label:lp});
