@@ -103,10 +103,11 @@
     .map-zone, .map-zone path { fill:#ccc; stroke:#999; stroke-width:1.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
     .map-zone:hover, .map-zone:hover path { fill:#aaa; stroke:#777; }
     .map-zone.active, .map-zone.active path { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:2; }
-    .map-dancefloor { fill:#e8e8e8; stroke:#999; stroke-width:1.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
-    .map-dancefloor:hover { fill:#d5d5d5; stroke:#777; }
-    .map-dancefloor.active { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:2; }
+    .map-dancefloor { fill:transparent; stroke:none; cursor:pointer; }
+    .map-dancefloor:hover ~ .pista-3d-inactive { opacity:0.7; }
     #sala { pointer-events:none; filter:saturate(0) brightness(1.1) contrast(0.3); opacity:0.45; fill:#ccc; }
+    .pista-platform { transition:fill 0.25s, opacity 0.25s; }
+    .pista-platform.active { fill:var(--color-primary) !important; filter:none !important; opacity:1 !important; }
     #sala path:not([fill]), #sala polygon:not([fill]), #sala polyline:not([fill]), #sala rect:not([fill]) { fill:#aaa !important; }
     #NOMBRES { pointer-events:none; }
     #NOMBRES path, #NOMBRES polyline { stroke:none; }
@@ -613,7 +614,7 @@
       var pistaIzqEl = svgEl.querySelector('#pista_x5F_izquierda');
       if(etiquetas && pistaIzqEl){
         danceFloorEl = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-        danceFloorEl.setAttribute('points','514,179 788,404 502,579 228,354');
+        danceFloorEl.setAttribute('points','510,175 795,410 505,585 220,350');
         danceFloorEl.classList.add('map-dancefloor');
         danceFloorEl.id = 'danceFloor';
         etiquetas.insertBefore(danceFloorEl, pistaIzqEl);
@@ -654,8 +655,32 @@
       var etiquetasGroup = svgEl.querySelector('#etiquetas');
       if(sala && etiquetasGroup){
         sala.removeAttribute('display');
-        sala.querySelectorAll('path, polyline').forEach(function(p){
-          if(p.getAttribute('fill') === '#dfb834') p.style.display = 'none';
+        var pistaIzqBox = pistaIzqEl ? pistaIzqEl.getBBox() : null;
+        var pistaDchEl = svgEl.querySelector('#pista_x5F_derecha');
+        var pistaDchBox = pistaDchEl ? pistaDchEl.getBBox() : null;
+        var pistaMinX = 999, pistaMinY = 999, pistaMaxX = 0, pistaMaxY = 0;
+        if(pistaIzqBox){
+          pistaMinX = Math.min(pistaMinX, pistaIzqBox.x - 30);
+          pistaMinY = Math.min(pistaMinY, pistaIzqBox.y - 30);
+          pistaMaxX = Math.max(pistaMaxX, pistaIzqBox.x + pistaIzqBox.width + 30);
+          pistaMaxY = Math.max(pistaMaxY, pistaIzqBox.y + pistaIzqBox.height + 30);
+        }
+        if(pistaDchBox){
+          pistaMinX = Math.min(pistaMinX, pistaDchBox.x - 30);
+          pistaMinY = Math.min(pistaMinY, pistaDchBox.y - 30);
+          pistaMaxX = Math.max(pistaMaxX, pistaDchBox.x + pistaDchBox.width + 30);
+          pistaMaxY = Math.max(pistaMaxY, pistaDchBox.y + pistaDchBox.height + 30);
+        }
+        sala.querySelectorAll('path, polyline, polygon').forEach(function(p){
+          if(p.getAttribute('fill') === '#dfb834'){ p.style.display = 'none'; return; }
+          try {
+            var bb = p.getBBox();
+            var cx = bb.x + bb.width/2;
+            var cy = bb.y + bb.height/2;
+            if(cx >= pistaMinX && cx <= pistaMaxX && cy >= pistaMinY && cy <= pistaMaxY){
+              p.classList.add('pista-platform');
+            }
+          } catch(e){}
         });
         svgEl.insertBefore(sala, etiquetasGroup);
       }
@@ -725,15 +750,23 @@
     if(pl) pl.style.fill = dfActive ? '#fff' : '#333';
   }
 
+  function togglePistaPlatform(active){
+    document.querySelectorAll('.pista-platform').forEach(function(el){
+      el.classList.toggle('active', !!active);
+    });
+  }
+
   function clearAllMapHighlights(){
     if(danceFloorEl) danceFloorEl.classList.remove('active');
     if(backstageEl) backstageEl.classList.remove('active');
     mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
+    togglePistaPlatform(false);
   }
 
   function highlightDanceFloor(active){
     clearAllMapHighlights();
     if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
+    togglePistaPlatform(active);
     updateLabelColors();
   }
 
