@@ -1,0 +1,138 @@
+{
+  "selectedTab": "Entrada General",
+  "blueZones": [],
+  "pistaActive": true,
+  "allBlueElements": [
+    {
+      "id": "",
+      "class": {},
+      "tag": "polygon",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "polygon",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "polygon",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "path",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "polygon",
+      "fill": "rgb(0, 121, 202)"
+    },
+    {
+      "id": "",
+      "class": {},
+      "tag": "polygon",
+      "fill": "rgb(0, 121, 202)"
+    }
+  ],
+  "activeTickets": [
+    {
+      "name": "Entrada General - Tercer tramo",
+      "zone": null
+    },
+    {
+      "name": "Entrada Bono Cultural Joven",
+      "zone": null
+    }
+  ],
+  "url": "https://emilianoechevarriafever.github.io/fabrik-madrid-tables/"
+}
