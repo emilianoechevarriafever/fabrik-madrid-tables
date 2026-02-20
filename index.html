@@ -106,8 +106,9 @@
     .map-dancefloor { fill:transparent; stroke:none; cursor:pointer; }
     .map-dancefloor:hover ~ .pista-3d-inactive { opacity:0.7; }
     #sala { pointer-events:none; filter:saturate(0) brightness(1.1) contrast(0.3); opacity:0.45; fill:#ccc; }
-    .pista-platform { transition:fill 0.25s, opacity 0.25s; }
-    .pista-platform.active { fill:var(--color-primary) !important; filter:none !important; opacity:1 !important; }
+    #pistaGroup { pointer-events:none; }
+    #pistaGroup path, #pistaGroup polyline, #pistaGroup polygon { fill:#ccc; stroke:#bbb; stroke-width:0.3; transition:fill 0.25s; }
+    #pistaGroup.active path, #pistaGroup.active polyline, #pistaGroup.active polygon { fill:var(--color-primary); }
     #sala path:not([fill]), #sala polygon:not([fill]), #sala polyline:not([fill]), #sala rect:not([fill]) { fill:#aaa !important; }
     #NOMBRES { pointer-events:none; }
     #NOMBRES path, #NOMBRES polyline { stroke:none; }
@@ -656,8 +657,8 @@
       if(sala && etiquetasGroup){
         sala.removeAttribute('display');
         var pistaIzqBox = pistaIzqEl ? pistaIzqEl.getBBox() : null;
-        var pistaDchEl = svgEl.querySelector('#pista_x5F_derecha');
-        var pistaDchBox = pistaDchEl ? pistaDchEl.getBBox() : null;
+        var pistaDchEl2 = svgEl.querySelector('#pista_x5F_derecha');
+        var pistaDchBox = pistaDchEl2 ? pistaDchEl2.getBBox() : null;
         var pistaMinX = 999, pistaMinY = 999, pistaMaxX = 0, pistaMaxY = 0;
         if(pistaIzqBox){
           pistaMinX = Math.min(pistaMinX, pistaIzqBox.x - 30);
@@ -671,6 +672,9 @@
           pistaMaxX = Math.max(pistaMaxX, pistaDchBox.x + pistaDchBox.width + 30);
           pistaMaxY = Math.max(pistaMaxY, pistaDchBox.y + pistaDchBox.height + 30);
         }
+        var pistaGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+        pistaGroup.id = 'pistaGroup';
+        var toMove = [];
         sala.querySelectorAll('path, polyline, polygon').forEach(function(p){
           if(p.getAttribute('fill') === '#dfb834'){ p.style.display = 'none'; return; }
           try {
@@ -678,11 +682,13 @@
             var cx = bb.x + bb.width/2;
             var cy = bb.y + bb.height/2;
             if(cx >= pistaMinX && cx <= pistaMaxX && cy >= pistaMinY && cy <= pistaMaxY){
-              p.classList.add('pista-platform');
+              toMove.push(p);
             }
           } catch(e){}
         });
-        svgEl.insertBefore(sala, etiquetasGroup);
+        toMove.forEach(function(p){ pistaGroup.appendChild(p); });
+        svgEl.insertBefore(pistaGroup, etiquetasGroup);
+        svgEl.insertBefore(sala, pistaGroup);
       }
 
       Object.keys(SVG_ZONE_MAP).forEach(function(svgId){
@@ -751,9 +757,8 @@
   }
 
   function togglePistaPlatform(active){
-    document.querySelectorAll('.pista-platform').forEach(function(el){
-      el.classList.toggle('active', !!active);
-    });
+    var pg = document.getElementById('pistaGroup');
+    if(pg) pg.classList.toggle('active', !!active);
   }
 
   function clearAllMapHighlights(){
