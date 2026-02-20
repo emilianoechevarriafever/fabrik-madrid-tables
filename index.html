@@ -98,11 +98,13 @@
     .ticket-selector .cards-section .cards-subtitle { padding-left:32px; padding-right:32px; }
     .ticket-selector .cards-scroll { padding-left:16px; padding-right:16px; }
     .map-title { font-size:14px; font-weight:600; color:var(--color-text-subtle); margin-bottom:12px; text-align:center; }
-    .floor-map-wrap { position:relative; width:100%; background:#121212; border-radius:12px; overflow:hidden; padding:8px; }
+    .floor-map-wrap { position:relative; width:100%; background:#fff; border-radius:12px; overflow:hidden; padding:8px; border:1px solid var(--color-border); }
     .floor-map-wrap svg { width:100%; height:auto; display:block; }
-    .map-zone { cursor:pointer; transition:opacity 0.2s, filter 0.2s; }
-    .map-zone:hover { opacity:0.75; filter:brightness(1.3); }
-    .map-zone.active { opacity:1; filter:brightness(1.5); stroke:var(--color-primary); stroke-width:3; }
+    .map-zone, .map-zone path { fill:#c0c0c0; cursor:pointer; transition:fill 0.25s; }
+    .map-zone:hover, .map-zone:hover path { fill:#999; }
+    .map-zone.active, .map-zone.active path { fill:var(--color-primary); }
+    #NOMBRES { pointer-events:none; }
+    #NOMBRES path, #NOMBRES polyline { transition:fill 0.25s; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
     .cards-section { padding:0 0 8px; }
@@ -519,12 +521,38 @@
   var mapWrap = document.getElementById('floorMapWrap');
   var mapZoneEls = [];
 
+  var LABEL_COLORS = {
+    'dj-booth':'#fff', 'cristal':'#fff', 'palco-izq':'#fff', 'palco-dcha':'#fff',
+    'backstage-izq':'#fff', 'backstage-dcha':'#fff', 'vip':'#fff', 'cielo':'#fff',
+    'pista':'#fff'
+  };
+  var LABEL_ZONE_GROUPS = {};
+
   fetch('ReservadosMainRoom.svg')
     .then(function(r){ return r.text(); })
     .then(function(svgText){
       mapWrap.innerHTML = svgText;
       var svgEl = mapWrap.querySelector('svg');
-      if(svgEl){ svgEl.removeAttribute('id'); svgEl.style.width='100%'; svgEl.style.height='auto'; svgEl.style.display='block'; }
+      if(!svgEl) return;
+      svgEl.removeAttribute('id');
+      svgEl.style.width='100%'; svgEl.style.height='auto'; svgEl.style.display='block';
+
+      var backstageBg = svgEl.querySelector('#backstage');
+      if(backstageBg){
+        backstageBg.style.display = '';
+        backstageBg.style.fill = '#333';
+        backstageBg.style.opacity = '0.15';
+      }
+
+      var nombres = svgEl.querySelector('#NOMBRES');
+      if(nombres){
+        svgEl.appendChild(nombres);
+        nombres.style.display = '';
+        nombres.querySelectorAll('path, polyline').forEach(function(p){
+          p.style.fill = '#fff';
+        });
+      }
+
       Object.keys(SVG_ZONE_MAP).forEach(function(svgId){
         var el = mapWrap.querySelector('#'+CSS.escape(svgId));
         if(!el) return;
@@ -541,6 +569,7 @@
           }
         });
       });
+
       highlightMapZone('pista');
     });
 
