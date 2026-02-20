@@ -296,11 +296,9 @@
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
       <span>Sin comisiones de reserva</span>
     </div>
-    <div class="ticket-pills" id="ticketPills"></div>
-
-    <!-- Map: always visible -->
+    <!-- Map: always visible, ABOVE pills -->
     <div class="map-section">
-      <div class="map-title">Toca una zona del mapa o desliza las cards</div>
+      <div class="map-title">Toca una zona del mapa</div>
       <div class="floor-map-wrap">
         <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
           <rect x="120" y="4" width="120" height="16" rx="4" fill="#444" opacity="0.6"/>
@@ -341,26 +339,19 @@
             <text class="zone-sublabel" x="324" y="129" font-size="7">DCHA</text>
             <g class="zone-badge-g" data-zone="palco-dcha"><circle cx="340" cy="78" r="0"/><text x="340" y="78"></text></g>
           </g>
-          <!-- Pista general (for entrada general / bono) -->
-          <g class="zone-group zone-pista-general" data-zone="pista-general" style="display:none">
-            <rect class="zone-bg" x="72" y="116" width="216" height="70" rx="6" fill="#2ecc71" opacity="0.4"/>
-            <text class="zone-label" x="180" y="155" font-size="12">PISTA</text>
-            <text class="zone-sublabel" x="180" y="167" font-size="7">Entrada general</text>
-          </g>
-          <!-- Pista izq / dcha (for mesas) -->
-          <g class="zone-group zone-pista-mesas" data-zone="pista-izq">
+          <text x="180" y="155" fill="#555" font-family="Montserrat" font-size="14" font-weight="700" text-anchor="middle" opacity="0.3">P I S T A</text>
+          <g class="zone-group" data-zone="pista-izq">
             <rect class="zone-bg" x="72" y="130" width="60" height="42" rx="6" fill="#2ecc71" opacity="0.4"/>
             <text class="zone-label" x="102" y="149" font-size="8">PISTA</text>
             <text class="zone-sublabel" x="102" y="160" font-size="7">IZQ</text>
             <g class="zone-badge-g" data-zone="pista-izq"><circle cx="122" cy="136" r="0"/><text x="122" y="136"></text></g>
           </g>
-          <g class="zone-group zone-pista-mesas" data-zone="pista-dcha">
+          <g class="zone-group" data-zone="pista-dcha">
             <rect class="zone-bg" x="228" y="130" width="60" height="42" rx="6" fill="#2ecc71" opacity="0.4"/>
             <text class="zone-label" x="258" y="149" font-size="8">PISTA</text>
             <text class="zone-sublabel" x="258" y="160" font-size="7">DCHA</text>
             <g class="zone-badge-g" data-zone="pista-dcha"><circle cx="278" cy="136" r="0"/><text x="278" y="136"></text></g>
           </g>
-          <text class="pista-label-mesas" x="180" y="155" fill="#555" font-family="Montserrat" font-size="14" font-weight="700" text-anchor="middle" opacity="0.3">P I S T A</text>
           <g class="zone-group" data-zone="vip">
             <rect class="zone-bg" x="72" y="194" width="216" height="44" rx="6" fill="#e67e22" opacity="0.4"/>
             <text class="zone-label" x="180" y="216" font-size="10">VIP</text>
@@ -376,6 +367,8 @@
         </svg>
       </div>
     </div>
+
+    <div class="ticket-pills" id="ticketPills"></div>
 
     <!-- Cards: shown only on Mesas tab -->
     <div id="mesasVisuals">
@@ -589,34 +582,15 @@
   document.getElementById('mesasVisuals').style.display = 'none';
 
   /* ═══════════════════════════
-     MAP MODE: pista-general vs pista-mesas
-     ═══════════════════════════ */
-  var pistaGeneral = document.querySelector('.zone-pista-general');
-  var pistaMesasGroups = document.querySelectorAll('.zone-pista-mesas');
-  var pistaLabelMesas = document.querySelector('.pista-label-mesas');
-
-  function setMapMode(mode){
-    var isMesas = (mode === 'mesas');
-    pistaGeneral.style.display = isMesas ? 'none' : '';
-    pistaGeneral.classList.toggle('active', !isMesas);
-    pistaMesasGroups.forEach(function(g){ g.style.display = isMesas ? '' : 'none'; });
-    if(pistaLabelMesas) pistaLabelMesas.style.display = isMesas ? '' : 'none';
-    if(!isMesas){
-      mapGroups.forEach(function(g){
-        if(!g.classList.contains('zone-pista-general')) g.classList.remove('active');
-      });
-      allCards.forEach(function(c){ c.classList.remove('active'); });
-      updateBadges();
-    }
-  }
-
-  /* ═══════════════════════════
      SYNC ENGINE: map ↔ cards ↔ tickets
      ═══════════════════════════ */
   var mapGroups = document.querySelectorAll('.zone-group');
   var allCards = document.querySelectorAll('.zone-card');
+  var mesasVisuals = document.getElementById('mesasVisuals');
 
-  setMapMode('general');
+  function highlightMapZone(zoneId){
+    mapGroups.forEach(function(g){ g.classList.toggle('active', g.getAttribute('data-zone')===zoneId); });
+  }
 
   function selectMesaRadio(zoneId){
     var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
@@ -624,7 +598,7 @@
     mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){
       r.classList.toggle('active', r.getAttribute('data-zone')===zoneId);
     });
-    mapGroups.forEach(function(g){ g.classList.toggle('active', g.getAttribute('data-zone')===zoneId); });
+    highlightMapZone(zoneId);
     allCards.forEach(function(c){ c.classList.toggle('active', c.getAttribute('data-zone')===zoneId); });
     updateBadges();
     updateStickyBtn();
@@ -661,22 +635,23 @@
         r.classList.toggle('qty-zero', i!==0);
         r.classList.toggle('selected', i===0);
       });
+      highlightMapZone(null);
     }
     updateStickyBtn();
   }
-
-  var mesasVisuals = document.getElementById('mesasVisuals');
 
   function switchTicketTab(tabId){
     ticketPills.querySelectorAll('.ticket-pill').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-tab')===tabId); });
     ticketPanels.querySelectorAll('.ticket-panel').forEach(function(p){ p.style.display = p.getAttribute('data-tab')===tabId?'':'none'; });
     mesasVisuals.style.display = tabId==='mesas' ? '' : 'none';
-    setMapMode(tabId);
     preselectFirstInTab(tabId);
   }
 
   mapGroups.forEach(function(g){
-    g.addEventListener('click', function(){ selectZone(g.getAttribute('data-zone')); });
+    g.addEventListener('click', function(){
+      var zoneId = g.getAttribute('data-zone');
+      selectZone(zoneId);
+    });
   });
 
   allCards.forEach(function(c){
