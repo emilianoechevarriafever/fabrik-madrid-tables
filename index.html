@@ -141,8 +141,14 @@
     .ticket-row::after { content:''; position:absolute; right:136px; top:8px; bottom:8px; width:1px; background-image:repeating-linear-gradient(to bottom,var(--ticket-border) 0 2px,transparent 2px 4px); transform:translateX(50%); pointer-events:none; z-index:2; }
     .ticket-row .ticket-content { flex:1; padding:12px; display:flex; flex-direction:column; justify-content:flex-start; gap:2px; border:1px solid var(--ticket-border); border-right:none; border-radius:8px 0 0 8px; background:#fff; min-height:92px; }
     .ticket-row .ticket-name { font-size:14px; font-weight:600; line-height:20px; color:var(--color-text-main); }
-    .ticket-row .ticket-desc { font-size:12px; line-height:16px; color:var(--color-text-subtle); margin-top:2px; }
-    .ticket-row .ticket-price { font-size:14px; font-weight:600; line-height:20px; color:var(--color-text-main); margin-top:auto; }
+    .ticket-row .ticket-info-toggle { font-size:12px; color:var(--color-primary); cursor:pointer; margin-top:2px; font-weight:500; }
+    .ticket-row .ticket-info-toggle:hover { text-decoration:underline; }
+    .ticket-row .ticket-more-info { margin-top:8px; padding:10px; background:var(--color-bg-neutral); border-radius:6px; }
+    .ticket-row .ticket-info-title { font-size:12px; font-weight:600; line-height:18px; color:var(--color-text-main); margin-bottom:6px; }
+    .ticket-row .ticket-info-list { list-style:none; padding:0; margin:0; }
+    .ticket-row .ticket-info-list li { font-size:12px; line-height:18px; color:var(--color-text-subtle); padding-left:14px; position:relative; }
+    .ticket-row .ticket-info-list li::before { content:'•'; position:absolute; left:2px; color:var(--color-text); }
+    .ticket-row .ticket-price { font-size:14px; font-weight:600; line-height:20px; color:var(--color-text-main); margin-top:auto; padding-top:4px; }
     .ticket-row .ticket-selector-right { width:136px; flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:12px; border:1px solid var(--ticket-border); border-left:none; border-radius:0 8px 8px 0; background:#fff; }
     .ticket-amount { display:flex; align-items:center; gap:4px; }
     .ticket-amount .amt-btn { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; font-weight:400; transition:background 0.15s,color 0.15s; background:var(--color-bg-neutral); border:none; color:var(--color-text-disable); }
@@ -432,14 +438,24 @@
 
   var TICKET_TABS = [
     { id:'general', label:'Entrada General', tickets:[
-      { name:'Entrada General - Tercer tramo', desc:'Entrada para 1 persona · 2 consumiciones 20-21h · 1 consumición 21-22h · Sin consumición desde 22h', price:30 },
-      { name:'VIP Experience - Primer tramo', desc:'Experiencia zona VIP para 1 persona · Pulsera y sello · Standing VIP · 1 consumición · Fast Access · Baño privado', price:60 },
-      { name:'Backstage Experience - Primer tramo', desc:'Experiencia Backstage para 1 persona · Pulsera y sello · Acceso Backstage · 2 consumiciones · Fast Access · Baño privado', price:90 }
+      { name:'Entrada General - Tercer tramo', price:30,
+        infoTitle:'Entrada para 1 persona incluye:',
+        infoItems:['Acceso al recinto','Consumiciones:','2 consumiciones de 20:00h a 21:00h','1 consumición de 21:00h a 22:00h','A partir de las 22:00h sin consumición'] },
+      { name:'VIP Experience - Primer tramo', price:60,
+        infoTitle:'Experiencia zona VIP para 1 persona, incluye:',
+        infoItems:['Acceso al evento con pulsera y sello de salida','Acceso a Standing VIP','1 consumición','Fast Access','Baño privado'] },
+      { name:'Backstage Experience - Primer tramo', price:90,
+        infoTitle:'Experiencia Backstage para 1 persona, incluye:',
+        infoItems:['Acceso al evento con pulsera y sello de salida','Acceso a Backstage','2 consumiciones','Fast Access','Baño privado'] }
     ]},
     { id:'mesas', label:'Mesas Main Room', tickets:[] },
     { id:'bono', label:'Bono Cultural Joven', tickets:[
-      { name:'Entrada Bono Cultural Joven', desc:'Entrada para 1 persona con Bono Cultural Joven · Acceso al recinto', price:25 },
-      { name:'VIP Bono Cultural Joven', desc:'Experiencia zona VIP con Bono Cultural Joven · Standing VIP · 1 consumición · Fast Access', price:50 }
+      { name:'Entrada Bono Cultural Joven', price:25,
+        infoTitle:'Entrada para 1 persona incluye:',
+        infoItems:['Acceso al recinto con Bono Cultural Joven'] },
+      { name:'VIP Bono Cultural Joven', price:50,
+        infoTitle:'Experiencia zona VIP para 1 persona, incluye:',
+        infoItems:['Acceso a Standing VIP','1 consumición','Fast Access'] }
     ]}
   ];
 
@@ -502,12 +518,22 @@
       });
     } else {
       tab.tickets.forEach(function(t, ri){
+        var infoHtml = '';
+        if(t.infoItems){
+          var items = t.infoItems.map(function(it){ return '<li>'+it+'</li>'; }).join('');
+          infoHtml =
+            '<div class="ticket-more-info" style="display:none">'+
+              '<div class="ticket-info-title">'+t.infoTitle+'</div>'+
+              '<ul class="ticket-info-list">'+items+'</ul>'+
+            '</div>';
+        }
         panel.innerHTML +=
           '<div class="ticket-row'+(ri===0?' selected':' qty-zero')+'" data-price="'+t.price+'">'+
             '<div class="ticket-content">'+
               '<div class="ticket-name">'+t.name+'</div>'+
-              '<div class="ticket-desc">'+t.desc+'</div>'+
-              '<div class="ticket-price">\u20ac'+t.price.toFixed(2)+'</div>'+
+              '<div class="ticket-info-toggle">Más info</div>'+
+              infoHtml+
+              '<div class="ticket-price">'+t.price.toFixed(2)+' \u20ac</div>'+
             '</div>'+
             '<div class="ticket-notch"></div>'+
             '<div class="ticket-selector-right">'+
@@ -722,6 +748,16 @@
      MESAS: radio click handler
      ═══════════════════════════ */
   ticketPanels.addEventListener('click', function(e){
+    var toggle = e.target.closest('.ticket-info-toggle');
+    if(toggle){
+      var info = toggle.nextElementSibling;
+      if(info && info.classList.contains('ticket-more-info')){
+        var open = info.style.display !== 'none';
+        info.style.display = open ? 'none' : '';
+        toggle.textContent = open ? 'Más info' : 'Menos info';
+      }
+      return;
+    }
     var radio = e.target.closest('.ticket-row-radio');
     if(radio){
       var zId = radio.getAttribute('data-zone');
