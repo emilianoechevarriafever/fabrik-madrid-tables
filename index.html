@@ -755,8 +755,9 @@
       }
       p.label.style.fill = white ? '#fff' : '#333';
     });
-    if(nombres && (bsActive || dfActive)){
-      var allLabels = nombres.querySelectorAll('path, polyline');
+    var nombresEl = mapWrap ? mapWrap.querySelector('#NOMBRES') : null;
+    if(nombresEl && (bsActive || dfActive)){
+      var allLabels = nombresEl.querySelectorAll('path, polyline');
       var mappedLabels = zoneLabelPairs.map(function(p){ return p.label; });
       allLabels.forEach(function(lp){
         if(lp.style.display === 'none') return;
