@@ -639,6 +639,9 @@
       var etiquetasGroup = svgEl.querySelector('#etiquetas');
       if(sala && etiquetasGroup){
         sala.removeAttribute('display');
+        sala.querySelectorAll('path, polyline').forEach(function(p){
+          if(p.getAttribute('fill') === '#dfb834') p.style.display = 'none';
+        });
         svgEl.insertBefore(sala, etiquetasGroup);
       }
 
