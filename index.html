@@ -108,7 +108,7 @@
     .map-dancefloor.active { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:1; }
     #sala { pointer-events:none; filter:saturate(0) brightness(0.65); opacity:0.85; fill:#aaa; }
     #NOMBRES { pointer-events:none; }
-    #NOMBRES path, #NOMBRES polyline { paint-order:stroke fill; stroke:#fff; stroke-width:10px; stroke-linejoin:round; }
+    #NOMBRES path, #NOMBRES polyline { stroke:none; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
     .cards-section { padding:0 0 8px; }
@@ -691,9 +691,7 @@
 
   function updateLabelColors(){
     zoneLabelPairs.forEach(function(p){
-      var active = p.zone.classList.contains('active');
-      p.label.style.fill = active ? '#fff' : '#333';
-      p.label.style.stroke = active ? 'var(--color-primary)' : '#fff';
+      p.label.style.fill = p.zone.classList.contains('active') ? '#fff' : '#333';
     });
   }
 
