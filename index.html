@@ -641,6 +641,7 @@
         });
       });
 
+      buildLabelMap();
       highlightDanceFloor(true);
     });
 
@@ -651,6 +652,34 @@
   var mesasVisuals = document.getElementById('mesasVisuals');
 
   var backstageEl = null;
+  var zoneLabelPairs = [];
+
+  function buildLabelMap(){
+    var nombres = mapWrap.querySelector('#NOMBRES');
+    if(!nombres) return;
+    var labels = nombres.querySelectorAll('path, polyline');
+    var allZones = mapZoneEls.slice();
+    if(backstageEl) allZones.push(backstageEl);
+    if(danceFloorEl) allZones.push(danceFloorEl);
+    labels.forEach(function(lp){
+      var lb = lp.getBBox();
+      var cx = lb.x + lb.width/2;
+      var cy = lb.y + lb.height/2;
+      for(var i=0; i<allZones.length; i++){
+        var zb = allZones[i].getBBox();
+        if(cx >= zb.x && cx <= zb.x+zb.width && cy >= zb.y && cy <= zb.y+zb.height){
+          zoneLabelPairs.push({zone:allZones[i], label:lp});
+          break;
+        }
+      }
+    });
+  }
+
+  function updateLabelColors(){
+    zoneLabelPairs.forEach(function(p){
+      p.label.style.fill = p.zone.classList.contains('active') ? '#fff' : '#333';
+    });
+  }
 
   function clearAllMapHighlights(){
     if(danceFloorEl) danceFloorEl.classList.remove('active');
@@ -661,11 +690,13 @@
   function highlightDanceFloor(active){
     clearAllMapHighlights();
     if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
+    updateLabelColors();
   }
 
   function highlightBackstageOnly(){
     clearAllMapHighlights();
     if(backstageEl) backstageEl.classList.add('active');
+    updateLabelColors();
   }
 
   function highlightMapZone(zoneId){
@@ -674,6 +705,7 @@
       var z = el.getAttribute('data-zone');
       el.classList.toggle('active', z===zoneId);
     });
+    updateLabelColors();
   }
 
   function selectMesaRadio(zoneId){
