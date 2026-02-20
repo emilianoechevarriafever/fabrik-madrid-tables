@@ -103,6 +103,9 @@
     .map-zone, .map-zone path { fill:#bbb; stroke:#999; stroke-width:0.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
     .map-zone:hover, .map-zone:hover path { fill:#999; stroke:#777; }
     .map-zone.active, .map-zone.active path { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:1; }
+    .map-dancefloor { fill:#e8e8e8; stroke:#ccc; stroke-width:0.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
+    .map-dancefloor:hover { fill:#d5d5d5; stroke:#aaa; }
+    .map-dancefloor.active { fill:var(--color-success); stroke:#1a8a4e; stroke-width:1; }
     #NOMBRES { pointer-events:none; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
@@ -543,6 +546,8 @@
   var mapWrap = document.getElementById('floorMapWrap');
   var mapZoneEls = [];
 
+  var danceFloorEl = null;
+
   fetch('ReservadosMainRoom.svg')
     .then(function(r){ return r.text(); })
     .then(function(svgText){
@@ -560,13 +565,27 @@
         backstageBg.style.pointerEvents = 'none';
       }
 
+      var etiquetas = svgEl.querySelector('#etiquetas');
+      var pistaIzqEl = svgEl.querySelector('#pista_x5F_izquierda');
+      if(etiquetas && pistaIzqEl){
+        danceFloorEl = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+        danceFloorEl.setAttribute('points','509,245 721,367 507,500 295,378');
+        danceFloorEl.classList.add('map-dancefloor');
+        danceFloorEl.id = 'danceFloor';
+        etiquetas.insertBefore(danceFloorEl, pistaIzqEl);
+        danceFloorEl.addEventListener('click', function(){
+          highlightDanceFloor(true);
+          switchTicketTab('general');
+        });
+      }
+
       var nombres = svgEl.querySelector('#NOMBRES');
       if(nombres){
         svgEl.appendChild(nombres);
         var LABEL_FILL_MAP = [
-          'palco-izq','pista','dj-booth','backstage-dcha','backstage-izq',
+          'palco-izq','pista-izq','dj-booth','backstage-dcha','backstage-izq',
           'cristal','cielo','vip','vip','palco-dcha',
-          'backstage-exp','backstage-exp','pista'
+          'backstage-exp','backstage-exp','pista-dcha'
         ];
         var labelGroups = nombres.querySelectorAll(':scope > g');
         labelGroups.forEach(function(lg, i){
@@ -586,17 +605,11 @@
         el.setAttribute('data-zone', appZone);
         mapZoneEls.push(el);
         el.addEventListener('click', function(){
-          var activeTab = getActiveTabId();
-          if((appZone === 'pista-izq' || appZone === 'pista-dcha') && activeTab !== 'mesas'){
-            highlightMapZone('pista');
-            switchTicketTab('general');
-          } else {
-            selectZone(appZone);
-          }
+          selectZone(appZone);
         });
       });
 
-      highlightMapZone('pista');
+      highlightDanceFloor(true);
     });
 
   /* ═══════════════════════════
@@ -605,26 +618,30 @@
   var allCards = document.querySelectorAll('.zone-card');
   var mesasVisuals = document.getElementById('mesasVisuals');
 
+  function highlightDanceFloor(active){
+    if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
+    mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
+    updateLabels(active ? 'dancefloor' : null);
+  }
+
   function highlightMapZone(zoneId){
-    var isPista = (zoneId === 'pista' || zoneId === 'pista-izq' || zoneId === 'pista-dcha');
+    if(danceFloorEl) danceFloorEl.classList.remove('active');
     mapZoneEls.forEach(function(el){
       var z = el.getAttribute('data-zone');
-      if(zoneId === 'pista'){
-        el.classList.toggle('active', z==='pista-izq' || z==='pista-dcha');
-      } else {
-        el.classList.toggle('active', z===zoneId);
-      }
+      el.classList.toggle('active', z===zoneId);
     });
+    updateLabels(zoneId);
+  }
+
+  function updateLabels(activeZone){
     var labelGroups = mapWrap.querySelectorAll('#NOMBRES > g');
     labelGroups.forEach(function(lg){
       var lz = lg.getAttribute('data-label-zone');
-      var isActive;
-      if(zoneId === 'pista'){
-        isActive = (lz === 'pista');
-      } else if(zoneId === 'pista-izq' || zoneId === 'pista-dcha'){
-        isActive = (lz === 'pista');
-      } else {
-        isActive = (lz === zoneId);
+      var isActive = false;
+      if(activeZone === 'dancefloor'){
+        isActive = (lz === 'pista-izq' || lz === 'pista-dcha');
+      } else if(activeZone){
+        isActive = (lz === activeZone);
       }
       lg.querySelectorAll('path, polyline').forEach(function(p){
         p.style.fill = isActive ? '#fff' : '#666';
@@ -679,7 +696,7 @@
       var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
       if(mesasPanel) mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){ r.classList.remove('active'); });
       allCards.forEach(function(c){ c.classList.remove('active'); });
-      highlightMapZone('pista');
+      highlightDanceFloor(true);
     }
     updateStickyBtn();
   }
