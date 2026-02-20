@@ -625,7 +625,11 @@
       if(nombres){
         svgEl.appendChild(nombres);
         nombres.querySelectorAll('path, polyline').forEach(function(p){
-          p.style.fill = '#333';
+          if(p.getAttribute('fill') === '#dfb834') {
+            p.style.display = 'none';
+          } else {
+            p.style.fill = '#333';
+          }
         });
       }
 
@@ -662,6 +666,7 @@
     if(backstageEl) allZones.push(backstageEl);
     if(danceFloorEl) allZones.push(danceFloorEl);
     labels.forEach(function(lp){
+      if(lp.style.display === 'none') return;
       var lb = lp.getBBox();
       var cx = lb.x + lb.width/2;
       var cy = lb.y + lb.height/2;
