@@ -708,16 +708,7 @@
       var white = false;
       var zId = p.zone.getAttribute('data-zone');
       if(dfActive && labelsOnDanceFloor.indexOf(zId) !== -1) white = true;
-      if(bsActive){
-        if(p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1) white = true;
-        if(bsBox){
-          var lb = p.label.getBBox();
-          var cx = lb.x + lb.width/2;
-          var cy = lb.y + lb.height/2;
-          var pad = 40;
-          if(cx>=bsBox.x-pad && cx<=bsBox.x+bsBox.width+pad && cy>=bsBox.y-pad && cy<=bsBox.y+bsBox.height+pad) white = true;
-        }
-      }
+      if(bsActive && (p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1)) white = true;
       p.label.style.fill = white ? '#fff' : '#333';
     });
     var nombresEl = mapWrap ? mapWrap.querySelector('#NOMBRES') : null;
