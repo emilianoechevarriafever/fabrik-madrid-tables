@@ -610,13 +610,13 @@
     }
   }
 
-  setMapMode('general');
-
   /* ═══════════════════════════
      SYNC ENGINE: map ↔ cards ↔ tickets
      ═══════════════════════════ */
   var mapGroups = document.querySelectorAll('.zone-group');
   var allCards = document.querySelectorAll('.zone-card');
+
+  setMapMode('general');
 
   function selectMesaRadio(zoneId){
     var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
