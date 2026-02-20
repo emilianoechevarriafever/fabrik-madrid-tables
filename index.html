@@ -578,6 +578,7 @@
     'palco_x5F_derecho': 'palco-dcha',
     'backstage_x5F_izquierdo': 'backstage-izq',
     'backstage_x5F_derecho': 'backstage-dcha',
+    'vip': 'mesas-vip',
     'cielo': 'cielo',
     'pista_x5F_izquierda': 'pista-izq',
     'pista_x5F_derecha': 'pista-dcha'
@@ -604,16 +605,6 @@
         backstageEl = backstageBg;
         backstageBg.addEventListener('click', function(){
           selectBackstageExperience();
-        });
-      }
-
-      var vipZoneEl = svgEl.querySelector('#vip');
-      if(vipZoneEl){
-        vipZoneEl.classList.add('map-zone');
-        vipZoneEl.setAttribute('data-zone','vip-area');
-        vipEl = vipZoneEl;
-        vipZoneEl.addEventListener('click', function(){
-          selectVipExperience();
         });
       }
 
@@ -661,12 +652,10 @@
   var mesasVisuals = document.getElementById('mesasVisuals');
 
   var backstageEl = null;
-  var vipEl = null;
 
   function clearAllMapHighlights(){
     if(danceFloorEl) danceFloorEl.classList.remove('active');
     if(backstageEl) backstageEl.classList.remove('active');
-    if(vipEl) vipEl.classList.remove('active');
     mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
   }
 
@@ -678,11 +667,6 @@
   function highlightBackstageOnly(){
     clearAllMapHighlights();
     if(backstageEl) backstageEl.classList.add('active');
-  }
-
-  function highlightVipOnly(){
-    clearAllMapHighlights();
-    if(vipEl) vipEl.classList.add('active');
   }
 
   function highlightMapZone(zoneId){
@@ -737,27 +721,6 @@
     if(mesasPanel) mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){ r.classList.remove('active'); });
     allCards.forEach(function(c){ c.classList.remove('active'); });
     highlightBackstageOnly();
-    updateStickyBtn();
-  }
-
-  function selectVipExperience(){
-    ticketPills.querySelectorAll('.ticket-pill').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-tab')==='general'); });
-    ticketPanels.querySelectorAll('.ticket-panel').forEach(function(p){ p.style.display = p.getAttribute('data-tab')==='general'?'':'none'; });
-    mesasVisuals.style.display = 'none';
-    var panel = ticketPanels.querySelector('[data-tab="general"]');
-    if(panel){
-      var rows = panel.querySelectorAll('.ticket-row');
-      rows.forEach(function(r, i){
-        var cEl = r.querySelector('.amt-count');
-        cEl.textContent = (i===1)?'1':'0';
-        r.classList.toggle('qty-zero', i!==1);
-        r.classList.toggle('selected', i===1);
-      });
-    }
-    var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
-    if(mesasPanel) mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){ r.classList.remove('active'); });
-    allCards.forEach(function(c){ c.classList.remove('active'); });
-    highlightVipOnly();
     updateStickyBtn();
   }
 
