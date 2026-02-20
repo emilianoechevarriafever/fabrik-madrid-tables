@@ -708,18 +708,17 @@
     });
   }
 
-  var labelsOnBlue = ['pista-izq','pista-dcha'];
+  var labelsOnDanceFloor = ['pista-izq','pista-dcha'];
+  var labelsOnBackstage = ['backstage-izq','backstage-dcha','backstage-area'];
 
   function updateLabelColors(){
     var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
     var bsActive = backstageEl && backstageEl.classList.contains('active');
     zoneLabelPairs.forEach(function(p){
       var white = false;
-      if(dfActive){
-        var zId = p.zone.getAttribute('data-zone');
-        if(labelsOnBlue.indexOf(zId) !== -1) white = true;
-      }
-      if(bsActive && p.zone === backstageEl) white = true;
+      var zId = p.zone.getAttribute('data-zone');
+      if(dfActive && labelsOnDanceFloor.indexOf(zId) !== -1) white = true;
+      if(bsActive && (p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1)) white = true;
       p.label.style.fill = white ? '#fff' : '#333';
     });
     var pl = document.getElementById('pistaLabel');
