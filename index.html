@@ -108,6 +108,8 @@
     #pistaGroup { pointer-events:none; }
     #pistaGroup path, #pistaGroup polyline, #pistaGroup polygon { fill:#ccc; stroke:#bbb; stroke-width:0.3; transition:fill 0.25s; }
     #pistaGroup.active path, #pistaGroup.active polyline, #pistaGroup.active polygon { fill:var(--color-primary); }
+    .map-zone.pista-passthrough { fill:transparent !important; stroke:transparent !important; }
+    .map-zone.pista-passthrough:hover { fill:rgba(0,121,202,0.15) !important; stroke:transparent !important; }
     #sala path:not([fill]), #sala polygon:not([fill]), #sala polyline:not([fill]), #sala rect:not([fill]) { fill:#aaa !important; }
     #NOMBRES { pointer-events:none; }
     #NOMBRES path, #NOMBRES polyline { stroke:none; }
@@ -671,12 +673,7 @@
         el.setAttribute('data-zone', appZone);
         mapZoneEls.push(el);
         el.addEventListener('click', function(){
-          if(appZone === 'pista-izq' || appZone === 'pista-dcha'){
-            highlightDanceFloor(true);
-            switchTicketTab('general');
-          } else {
-            selectZone(appZone);
-          }
+          selectZone(appZone);
         });
       });
 
@@ -772,7 +769,7 @@
   function clearAllMapHighlights(){
     if(danceFloorEl) danceFloorEl.classList.remove('active');
     if(backstageEl) backstageEl.classList.remove('active');
-    mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
+    mapZoneEls.forEach(function(el){ el.classList.remove('active'); el.classList.remove('pista-passthrough'); });
     togglePistaPlatform(false);
   }
 
@@ -782,7 +779,7 @@
     togglePistaPlatform(active);
     mapZoneEls.forEach(function(el){
       var z = el.getAttribute('data-zone');
-      if(z === 'pista-izq' || z === 'pista-dcha') el.classList.toggle('active', !!active);
+      if(z === 'pista-izq' || z === 'pista-dcha') el.classList.toggle('pista-passthrough', !!active);
     });
     updateLabelColors();
   }
