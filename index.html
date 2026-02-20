@@ -656,21 +656,14 @@
       var etiquetasGroup = svgEl.querySelector('#etiquetas');
       if(sala && etiquetasGroup){
         sala.removeAttribute('display');
-        var pistaIzqBox = pistaIzqEl ? pistaIzqEl.getBBox() : null;
-        var pistaDchEl2 = svgEl.querySelector('#pista_x5F_derecha');
-        var pistaDchBox = pistaDchEl2 ? pistaDchEl2.getBBox() : null;
-        var pistaMinX = 999, pistaMinY = 999, pistaMaxX = 0, pistaMaxY = 0;
-        if(pistaIzqBox){
-          pistaMinX = Math.min(pistaMinX, pistaIzqBox.x);
-          pistaMinY = Math.min(pistaMinY, pistaIzqBox.y);
-          pistaMaxX = Math.max(pistaMaxX, pistaIzqBox.x + pistaIzqBox.width);
-          pistaMaxY = Math.max(pistaMaxY, pistaIzqBox.y + pistaIzqBox.height);
-        }
-        if(pistaDchBox){
-          pistaMinX = Math.min(pistaMinX, pistaDchBox.x);
-          pistaMinY = Math.min(pistaMinY, pistaDchBox.y);
-          pistaMaxX = Math.max(pistaMaxX, pistaDchBox.x + pistaDchBox.width);
-          pistaMaxY = Math.max(pistaMaxY, pistaDchBox.y + pistaDchBox.height);
+        var pistaPoly = [[545,230],[757,353],[471,528],[259,405]];
+        function ptInPista(px,py){
+          var inside = false;
+          for(var i=0,j=pistaPoly.length-1;i<pistaPoly.length;j=i++){
+            var xi=pistaPoly[i][0],yi=pistaPoly[i][1],xj=pistaPoly[j][0],yj=pistaPoly[j][1];
+            if((yi>py)!==(yj>py)&&px<(xj-xi)*(py-yi)/(yj-yi)+xi) inside=!inside;
+          }
+          return inside;
         }
         var pistaGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
         pistaGroup.id = 'pistaGroup';
@@ -681,7 +674,7 @@
             var bb = p.getBBox();
             var cx = bb.x + bb.width/2;
             var cy = bb.y + bb.height/2;
-            if(cx >= pistaMinX && cx <= pistaMaxX && cy >= pistaMinY && cy <= pistaMaxY){
+            if(ptInPista(cx, cy)){
               toMove.push(p);
             }
           } catch(e){}
