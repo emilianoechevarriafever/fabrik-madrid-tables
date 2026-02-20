@@ -632,7 +632,9 @@
           }
           return inside;
         }
-        var excludeEls = ['DJbooth','cristal','backstage'].map(function(id){
+        var excludeEls = ['DJbooth','cristal','backstage',
+          'pista_x5F_izquierda','pista_x5F_derecha',
+          'placo_x5F_izq','palco_x5F_derecho'].map(function(id){
           return svgEl.querySelector('#'+CSS.escape(id));
         }).filter(Boolean);
         var pistaGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
