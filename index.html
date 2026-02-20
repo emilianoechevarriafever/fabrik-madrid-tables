@@ -100,11 +100,10 @@
     .map-title { font-size:14px; font-weight:600; color:var(--color-text-subtle); margin-bottom:12px; text-align:center; }
     .floor-map-wrap { position:relative; width:100%; background:#fff; border-radius:12px; overflow:hidden; padding:8px; border:1px solid var(--color-border); }
     .floor-map-wrap svg { width:100%; height:auto; display:block; }
-    .map-zone, .map-zone path { fill:#c0c0c0; cursor:pointer; transition:fill 0.25s; }
-    .map-zone:hover, .map-zone:hover path { fill:#999; }
+    .map-zone, .map-zone path { fill:#b5b5b5; cursor:pointer; transition:fill 0.25s; }
+    .map-zone:hover, .map-zone:hover path { fill:#8a8a8a; }
     .map-zone.active, .map-zone.active path { fill:var(--color-primary); }
     #NOMBRES { pointer-events:none; }
-    #NOMBRES path, #NOMBRES polyline { transition:fill 0.25s; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
     .cards-section { padding:0 0 8px; }
@@ -521,13 +520,6 @@
   var mapWrap = document.getElementById('floorMapWrap');
   var mapZoneEls = [];
 
-  var LABEL_COLORS = {
-    'dj-booth':'#fff', 'cristal':'#fff', 'palco-izq':'#fff', 'palco-dcha':'#fff',
-    'backstage-izq':'#fff', 'backstage-dcha':'#fff', 'vip':'#fff', 'cielo':'#fff',
-    'pista':'#fff'
-  };
-  var LABEL_ZONE_GROUPS = {};
-
   fetch('ReservadosMainRoom.svg')
     .then(function(r){ return r.text(); })
     .then(function(svgText){
@@ -541,15 +533,26 @@
       if(backstageBg){
         backstageBg.style.display = '';
         backstageBg.style.fill = '#333';
-        backstageBg.style.opacity = '0.15';
+        backstageBg.style.opacity = '0.25';
+        backstageBg.style.pointerEvents = 'none';
       }
 
       var nombres = svgEl.querySelector('#NOMBRES');
       if(nombres){
         svgEl.appendChild(nombres);
         nombres.style.display = '';
-        nombres.querySelectorAll('path, polyline').forEach(function(p){
-          p.style.fill = '#fff';
+        var LABEL_FILL_MAP = [
+          'palco-izq','pista','dj-booth','backstage-dcha','backstage-izq',
+          'cristal','cielo','vip','vip','palco-dcha',
+          'backstage-exp','backstage-exp','pista'
+        ];
+        var labelGroups = nombres.querySelectorAll(':scope > g');
+        labelGroups.forEach(function(lg, i){
+          var zoneId = LABEL_FILL_MAP[i] || '';
+          lg.setAttribute('data-label-zone', zoneId);
+          lg.querySelectorAll('path, polyline').forEach(function(p){
+            p.style.fill = '#666';
+          });
         });
       }
 
@@ -583,6 +586,14 @@
     mapZoneEls.forEach(function(el){
       var z = el.getAttribute('data-zone');
       el.classList.toggle('active', z===zoneId);
+    });
+    var labelGroups = mapWrap.querySelectorAll('#NOMBRES > g');
+    labelGroups.forEach(function(lg){
+      var lz = lg.getAttribute('data-label-zone');
+      var isActive = lz === zoneId;
+      lg.querySelectorAll('path, polyline').forEach(function(p){
+        p.style.fill = isActive ? '#fff' : '#666';
+      });
     });
   }
 
