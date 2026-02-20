@@ -738,13 +738,40 @@
   function updateLabelColors(){
     var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
     var bsActive = backstageEl && backstageEl.classList.contains('active');
+    var bsBox = (bsActive && backstageEl) ? backstageEl.getBBox() : null;
     zoneLabelPairs.forEach(function(p){
       var white = false;
       var zId = p.zone.getAttribute('data-zone');
       if(dfActive && labelsOnDanceFloor.indexOf(zId) !== -1) white = true;
-      if(bsActive && (p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1)) white = true;
+      if(bsActive){
+        if(p.zone === backstageEl || labelsOnBackstage.indexOf(zId) !== -1) white = true;
+        if(bsBox){
+          var lb = p.label.getBBox();
+          var cx = lb.x + lb.width/2;
+          var cy = lb.y + lb.height/2;
+          var pad = 40;
+          if(cx>=bsBox.x-pad && cx<=bsBox.x+bsBox.width+pad && cy>=bsBox.y-pad && cy<=bsBox.y+bsBox.height+pad) white = true;
+        }
+      }
       p.label.style.fill = white ? '#fff' : '#333';
     });
+    if(nombres && (bsActive || dfActive)){
+      var allLabels = nombres.querySelectorAll('path, polyline');
+      var mappedLabels = zoneLabelPairs.map(function(p){ return p.label; });
+      allLabels.forEach(function(lp){
+        if(lp.style.display === 'none') return;
+        if(mappedLabels.indexOf(lp) !== -1) return;
+        var white = false;
+        if(bsActive && bsBox){
+          var lb2 = lp.getBBox();
+          var cx2 = lb2.x + lb2.width/2;
+          var cy2 = lb2.y + lb2.height/2;
+          var pad2 = 40;
+          if(cx2>=bsBox.x-pad2 && cx2<=bsBox.x+bsBox.width+pad2 && cy2>=bsBox.y-pad2 && cy2<=bsBox.y+bsBox.height+pad2) white = true;
+        }
+        lp.style.fill = white ? '#fff' : '';
+      });
+    }
     var pl = document.getElementById('pistaLabel');
     if(pl) pl.style.fill = dfActive ? '#fff' : '#333';
   }
