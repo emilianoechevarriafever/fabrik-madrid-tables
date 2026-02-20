@@ -596,9 +596,11 @@
   }
 
   function selectZone(zoneId){
+    ticketPills.querySelectorAll('.ticket-pill').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-tab')==='mesas'); });
+    ticketPanels.querySelectorAll('.ticket-panel').forEach(function(p){ p.style.display = p.getAttribute('data-tab')==='mesas'?'':'none'; });
+    mesasVisuals.style.display = '';
     selectMesaRadio(zoneId);
     scrollCardIntoView(zoneId);
-    switchTicketTab('mesas');
   }
 
   function preselectFirstInTab(tabId){
