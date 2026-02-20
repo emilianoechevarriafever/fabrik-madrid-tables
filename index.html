@@ -107,6 +107,7 @@
     .map-dancefloor:hover { fill:#d5d5d5; stroke:#aaa; }
     .map-dancefloor.active { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:1; }
     #NOMBRES { pointer-events:none; }
+    #NOMBRES path, #NOMBRES polyline { paint-order:stroke fill; stroke:#fff; stroke-width:3px; stroke-linejoin:round; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
     .cards-section { padding:0 0 8px; }
@@ -599,11 +600,11 @@
       var backstageBg = svgEl.querySelector('#backstage');
       if(backstageBg){
         backstageBg.removeAttribute('display');
-        backstageBg.classList.add('map-dancefloor');
+        backstageBg.classList.add('map-zone');
+        backstageBg.setAttribute('data-zone','backstage-area');
         backstageEl = backstageBg;
         backstageBg.addEventListener('click', function(){
-          highlightDanceFloor(true);
-          switchTicketTab('general');
+          selectBackstageExperience();
         });
       }
 
@@ -652,15 +653,24 @@
 
   var backstageEl = null;
 
-  function highlightDanceFloor(active){
-    if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
-    if(backstageEl) backstageEl.classList.toggle('active', !!active);
+  function clearAllMapHighlights(){
+    if(danceFloorEl) danceFloorEl.classList.remove('active');
+    if(backstageEl) backstageEl.classList.remove('active');
     mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
   }
 
+  function highlightDanceFloor(active){
+    clearAllMapHighlights();
+    if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
+  }
+
+  function highlightBackstageOnly(){
+    clearAllMapHighlights();
+    if(backstageEl) backstageEl.classList.add('active');
+  }
+
   function highlightMapZone(zoneId){
-    if(danceFloorEl) danceFloorEl.classList.remove('active');
-    if(backstageEl) backstageEl.classList.remove('active');
+    clearAllMapHighlights();
     mapZoneEls.forEach(function(el){
       var z = el.getAttribute('data-zone');
       el.classList.toggle('active', z===zoneId);
@@ -691,6 +701,27 @@
     mesasVisuals.style.display = '';
     selectMesaRadio(zoneId);
     scrollCardIntoView(zoneId);
+  }
+
+  function selectBackstageExperience(){
+    ticketPills.querySelectorAll('.ticket-pill').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-tab')==='general'); });
+    ticketPanels.querySelectorAll('.ticket-panel').forEach(function(p){ p.style.display = p.getAttribute('data-tab')==='general'?'':'none'; });
+    mesasVisuals.style.display = 'none';
+    var panel = ticketPanels.querySelector('[data-tab="general"]');
+    if(panel){
+      var rows = panel.querySelectorAll('.ticket-row');
+      rows.forEach(function(r, i){
+        var cEl = r.querySelector('.amt-count');
+        cEl.textContent = (i===2)?'1':'0';
+        r.classList.toggle('qty-zero', i!==2);
+        r.classList.toggle('selected', i===2);
+      });
+    }
+    var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
+    if(mesasPanel) mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){ r.classList.remove('active'); });
+    allCards.forEach(function(c){ c.classList.remove('active'); });
+    highlightBackstageOnly();
+    updateStickyBtn();
   }
 
   function preselectFirstInTab(tabId){
