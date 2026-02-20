@@ -98,17 +98,11 @@
     .ticket-selector .cards-section .cards-subtitle { padding-left:32px; padding-right:32px; }
     .ticket-selector .cards-scroll { padding-left:16px; padding-right:16px; }
     .map-title { font-size:14px; font-weight:600; color:var(--color-text-subtle); margin-bottom:12px; text-align:center; }
-    .floor-map-wrap { position:relative; width:100%; background:#0d0d1a; border-radius:12px; overflow:hidden; padding:12px; }
+    .floor-map-wrap { position:relative; width:100%; background:#121212; border-radius:12px; overflow:hidden; padding:8px; }
     .floor-map-wrap svg { width:100%; height:auto; display:block; }
-    .zone-group { cursor:pointer; }
-    .zone-bg { transition:opacity 0.2s, stroke-width 0.2s; stroke:#333; stroke-width:1; }
-    .zone-group:hover .zone-bg { opacity:0.65 !important; }
-    .zone-group.active .zone-bg { opacity:0.85 !important; stroke:var(--color-primary); stroke-width:2.5; }
-    .zone-label { fill:#fff; font-family:var(--font); font-weight:700; pointer-events:none; text-anchor:middle; }
-    .zone-sublabel { fill:rgba(255,255,255,0.6); font-family:var(--font); font-weight:400; pointer-events:none; text-anchor:middle; }
-    .zone-badge-g { pointer-events:none; }
-    .zone-badge-g circle { fill:var(--color-primary); transition:r 0.2s; }
-    .zone-badge-g text { fill:#fff; font-family:var(--font); font-weight:700; font-size:7px; text-anchor:middle; dominant-baseline:central; }
+    .map-zone { cursor:pointer; transition:opacity 0.2s, filter 0.2s; }
+    .map-zone:hover { opacity:0.75; filter:brightness(1.3); }
+    .map-zone.active { opacity:1; filter:brightness(1.5); stroke:var(--color-primary); stroke-width:3; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
     .cards-section { padding:0 0 8px; }
@@ -299,65 +293,7 @@
     <!-- Map: always visible, ABOVE pills -->
     <div class="map-section">
       <div class="map-title">Toca una zona del mapa</div>
-      <div class="floor-map-wrap">
-        <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
-          <rect x="120" y="4" width="120" height="16" rx="4" fill="#444" opacity="0.6"/>
-          <text x="180" y="14" fill="#888" font-family="Montserrat" font-size="7" font-weight="600" text-anchor="middle">ESCENARIO</text>
-          <g class="zone-group" data-zone="backstage-izq">
-            <rect class="zone-bg" x="82" y="24" width="70" height="40" rx="6" fill="#e74c3c" opacity="0.4"/>
-            <text class="zone-label" x="117" y="43" font-size="8">BACKSTAGE</text>
-            <text class="zone-sublabel" x="117" y="54" font-size="7">IZQ</text>
-            <g class="zone-badge-g" data-zone="backstage-izq"><circle cx="142" cy="30" r="0"/><text x="142" y="30"></text></g>
-          </g>
-          <g class="zone-group" data-zone="dj-booth">
-            <rect class="zone-bg" x="156" y="24" width="48" height="40" rx="6" fill="#f1c40f" opacity="0.4"/>
-            <text class="zone-label" x="180" y="43" font-size="8">DJ</text>
-            <text class="zone-sublabel" x="180" y="54" font-size="7">BOOTH</text>
-            <g class="zone-badge-g" data-zone="dj-booth"><circle cx="194" cy="30" r="0"/><text x="194" y="30"></text></g>
-          </g>
-          <g class="zone-group" data-zone="backstage-dcha">
-            <rect class="zone-bg" x="208" y="24" width="70" height="40" rx="6" fill="#e74c3c" opacity="0.4"/>
-            <text class="zone-label" x="243" y="43" font-size="8">BACKSTAGE</text>
-            <text class="zone-sublabel" x="243" y="54" font-size="7">DCHA</text>
-            <g class="zone-badge-g" data-zone="backstage-dcha"><circle cx="268" cy="30" r="0"/><text x="268" y="30"></text></g>
-          </g>
-          <g class="zone-group" data-zone="cristal">
-            <rect class="zone-bg" x="110" y="72" width="140" height="36" rx="6" fill="#9b59b6" opacity="0.4"/>
-            <text class="zone-label" x="180" y="90" font-size="9">CRISTAL</text>
-            <text class="zone-sublabel" x="180" y="101" font-size="7">1ª fila</text>
-            <g class="zone-badge-g" data-zone="cristal"><circle cx="240" cy="78" r="0"/><text x="240" y="78"></text></g>
-          </g>
-          <g class="zone-group" data-zone="palco-izq">
-            <rect class="zone-bg" x="8" y="72" width="56" height="100" rx="6" fill="#3498db" opacity="0.4"/>
-            <text class="zone-label" x="36" y="118" font-size="8">PALCO</text>
-            <text class="zone-sublabel" x="36" y="129" font-size="7">IZQ</text>
-            <g class="zone-badge-g" data-zone="palco-izq"><circle cx="52" cy="78" r="0"/><text x="52" y="78"></text></g>
-          </g>
-          <g class="zone-group" data-zone="palco-dcha">
-            <rect class="zone-bg" x="296" y="72" width="56" height="100" rx="6" fill="#3498db" opacity="0.4"/>
-            <text class="zone-label" x="324" y="118" font-size="8">PALCO</text>
-            <text class="zone-sublabel" x="324" y="129" font-size="7">DCHA</text>
-            <g class="zone-badge-g" data-zone="palco-dcha"><circle cx="340" cy="78" r="0"/><text x="340" y="78"></text></g>
-          </g>
-          <g class="zone-group" data-zone="pista">
-            <rect class="zone-bg" x="72" y="116" width="216" height="70" rx="6" fill="#2ecc71" opacity="0.4"/>
-            <text class="zone-label" x="180" y="152" font-size="12">PISTA</text>
-            <text class="zone-sublabel" x="180" y="165" font-size="7">Entrada general</text>
-          </g>
-          <g class="zone-group" data-zone="vip">
-            <rect class="zone-bg" x="72" y="194" width="216" height="44" rx="6" fill="#e67e22" opacity="0.4"/>
-            <text class="zone-label" x="180" y="216" font-size="10">VIP</text>
-            <text class="zone-sublabel" x="180" y="228" font-size="7">Vista panorámica</text>
-            <g class="zone-badge-g" data-zone="vip"><circle cx="276" cy="200" r="0"/><text x="276" y="200"></text></g>
-          </g>
-          <g class="zone-group" data-zone="cielo">
-            <rect class="zone-bg" x="110" y="250" width="140" height="40" rx="6" fill="#1abc9c" opacity="0.4"/>
-            <text class="zone-label" x="180" y="270" font-size="10">CIELO</text>
-            <text class="zone-sublabel" x="180" y="282" font-size="7">Zona más alta</text>
-            <g class="zone-badge-g" data-zone="cielo"><circle cx="240" cy="256" r="0"/><text x="240" y="256"></text></g>
-          </g>
-        </svg>
-      </div>
+      <div class="floor-map-wrap" id="floorMapWrap"></div>
     </div>
 
     <div class="ticket-pills" id="ticketPills"></div>
@@ -566,14 +502,59 @@
   document.getElementById('mesasVisuals').style.display = 'none';
 
   /* ═══════════════════════════
+     LOAD REAL SVG MAP
+     ═══════════════════════════ */
+  var SVG_ZONE_MAP = {
+    'DJbooth': 'dj-booth',
+    'cristal': 'cristal',
+    'placo_x5F_izq': 'palco-izq',
+    'palco_x5F_derecho': 'palco-dcha',
+    'backstage_x5F_izquierdo': 'backstage-izq',
+    'backstage_x5F_derecho': 'backstage-dcha',
+    'vip': 'vip',
+    'cielo': 'cielo',
+    'pista_x5F_izquierda': 'pista',
+    'pista_x5F_derecha': 'pista'
+  };
+  var mapWrap = document.getElementById('floorMapWrap');
+  var mapZoneEls = [];
+
+  fetch('ReservadosMainRoom.svg')
+    .then(function(r){ return r.text(); })
+    .then(function(svgText){
+      mapWrap.innerHTML = svgText;
+      var svgEl = mapWrap.querySelector('svg');
+      if(svgEl){ svgEl.removeAttribute('id'); svgEl.style.width='100%'; svgEl.style.height='auto'; svgEl.style.display='block'; }
+      Object.keys(SVG_ZONE_MAP).forEach(function(svgId){
+        var el = mapWrap.querySelector('#'+CSS.escape(svgId));
+        if(!el) return;
+        var appZone = SVG_ZONE_MAP[svgId];
+        el.classList.add('map-zone');
+        el.setAttribute('data-zone', appZone);
+        mapZoneEls.push(el);
+        el.addEventListener('click', function(){
+          if(appZone === 'pista'){
+            highlightMapZone('pista');
+            switchTicketTab('general');
+          } else {
+            selectZone(appZone);
+          }
+        });
+      });
+      highlightMapZone('pista');
+    });
+
+  /* ═══════════════════════════
      SYNC ENGINE: map ↔ cards ↔ tickets
      ═══════════════════════════ */
-  var mapGroups = document.querySelectorAll('.zone-group');
   var allCards = document.querySelectorAll('.zone-card');
   var mesasVisuals = document.getElementById('mesasVisuals');
 
   function highlightMapZone(zoneId){
-    mapGroups.forEach(function(g){ g.classList.toggle('active', g.getAttribute('data-zone')===zoneId); });
+    mapZoneEls.forEach(function(el){
+      var z = el.getAttribute('data-zone');
+      el.classList.toggle('active', z===zoneId);
+    });
   }
 
   function selectMesaRadio(zoneId){
@@ -584,7 +565,6 @@
     });
     highlightMapZone(zoneId);
     allCards.forEach(function(c){ c.classList.toggle('active', c.getAttribute('data-zone')===zoneId); });
-    updateBadges();
     updateStickyBtn();
   }
 
@@ -625,7 +605,6 @@
       if(mesasPanel) mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){ r.classList.remove('active'); });
       allCards.forEach(function(c){ c.classList.remove('active'); });
       highlightMapZone('pista');
-      updateBadges();
     }
     updateStickyBtn();
   }
@@ -636,18 +615,6 @@
     mesasVisuals.style.display = tabId==='mesas' ? '' : 'none';
     preselectFirstInTab(tabId);
   }
-
-  mapGroups.forEach(function(g){
-    g.addEventListener('click', function(){
-      var zoneId = g.getAttribute('data-zone');
-      if(zoneId === 'pista'){
-        highlightMapZone('pista');
-        switchTicketTab('general');
-      } else {
-        selectZone(zoneId);
-      }
-    });
-  });
 
   allCards.forEach(function(c){
     c.addEventListener('click', function(){ selectZone(c.getAttribute('data-zone')); });
@@ -683,18 +650,7 @@
     updateStickyBtn();
   });
 
-  function updateBadges(){
-    var activeRadio = ticketPanels.querySelector('.ticket-row-radio.active');
-    var activeZone = activeRadio ? activeRadio.getAttribute('data-zone') : null;
-    ZONES.forEach(function(z){
-      document.querySelectorAll('.zone-badge-g[data-zone="'+z.id+'"]').forEach(function(bg){
-        var circle = bg.querySelector('circle');
-        var text = bg.querySelector('text');
-        if(z.id === activeZone){ circle.setAttribute('r','8'); text.textContent='\u2713'; }
-        else { circle.setAttribute('r','0'); text.textContent=''; }
-      });
-    });
-  }
+  preselectFirstInTab('general');
 
   /* ═══════════════════════════
      STICKY CTA
