@@ -671,7 +671,12 @@
         el.setAttribute('data-zone', appZone);
         mapZoneEls.push(el);
         el.addEventListener('click', function(){
-          selectZone(appZone);
+          if(appZone === 'pista-izq' || appZone === 'pista-dcha'){
+            highlightDanceFloor(true);
+            switchTicketTab('general');
+          } else {
+            selectZone(appZone);
+          }
         });
       });
 
@@ -775,6 +780,10 @@
     clearAllMapHighlights();
     if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
     togglePistaPlatform(active);
+    mapZoneEls.forEach(function(el){
+      var z = el.getAttribute('data-zone');
+      if(z === 'pista-izq' || z === 'pista-dcha') el.classList.toggle('active', !!active);
+    });
     updateLabelColors();
   }
 
