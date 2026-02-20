@@ -531,7 +531,7 @@
 
       var backstageBg = svgEl.querySelector('#backstage');
       if(backstageBg){
-        backstageBg.style.display = '';
+        backstageBg.removeAttribute('display');
         backstageBg.style.fill = '#333';
         backstageBg.style.opacity = '0.25';
         backstageBg.style.pointerEvents = 'none';
@@ -540,7 +540,6 @@
       var nombres = svgEl.querySelector('#NOMBRES');
       if(nombres){
         svgEl.appendChild(nombres);
-        nombres.style.display = '';
         var LABEL_FILL_MAP = [
           'palco-izq','pista','dj-booth','backstage-dcha','backstage-izq',
           'cristal','cielo','vip','vip','palco-dcha',
