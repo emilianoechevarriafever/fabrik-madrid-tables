@@ -597,10 +597,16 @@
     updateStickyBtn();
   }
 
+  function scrollCardIntoView(zoneId){
+    var card = cardsScroll.querySelector('.zone-card[data-zone="'+zoneId+'"]');
+    if(!card) return;
+    var left = card.offsetLeft - cardsScroll.offsetLeft - (cardsScroll.clientWidth - card.offsetWidth) / 2;
+    cardsScroll.scrollTo({left:Math.max(0,left), behavior:'smooth'});
+  }
+
   function selectZone(zoneId){
     selectMesaRadio(zoneId);
-    var activeCard = cardsScroll.querySelector('.zone-card[data-zone="'+zoneId+'"]');
-    if(activeCard) activeCard.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    scrollCardIntoView(zoneId);
     switchTicketTab('mesas');
   }
 
@@ -612,8 +618,7 @@
       if(first){
         var zId = first.getAttribute('data-zone');
         selectMesaRadio(zId);
-        var card = cardsScroll.querySelector('.zone-card[data-zone="'+zId+'"]');
-        if(card) card.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+        scrollCardIntoView(zId);
       }
     } else {
       var rows = panel.querySelectorAll('.ticket-row');
@@ -658,8 +663,7 @@
     if(radio){
       var zId = radio.getAttribute('data-zone');
       selectMesaRadio(zId);
-      var card = cardsScroll.querySelector('.zone-card[data-zone="'+zId+'"]');
-      if(card) card.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      scrollCardIntoView(zId);
       return;
     }
     var btn = e.target.closest('.amt-btn');
