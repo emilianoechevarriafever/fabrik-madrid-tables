@@ -621,7 +621,7 @@
       var etiquetasGroup = svgEl.querySelector('#etiquetas');
       if(sala && etiquetasGroup){
         sala.removeAttribute('display');
-        var pistaPoly = [[545,225],[765,353],[478,538],[250,408]];
+        var pistaPoly = [[510,175],[795,410],[505,585],[220,350]];
         function ptInPista(px,py){
           var inside = false;
           for(var i=0,j=pistaPoly.length-1;i<pistaPoly.length;j=i++){
@@ -630,6 +630,14 @@
           }
           return inside;
         }
+        var excludeZoneIds = ['DJbooth','cristal','placo_x5F_izq','palco_x5F_derecho',
+          'backstage_x5F_izquierdo','backstage_x5F_derecho','vip','cielo','backstage'];
+        var excludeBoxes = [];
+        excludeZoneIds.forEach(function(id){
+          var el = svgEl.querySelector('#'+CSS.escape(id));
+          if(!el) return;
+          try { var bb = el.getBBox(); excludeBoxes.push(bb); } catch(e){}
+        });
         var pistaGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
         pistaGroup.id = 'pistaGroup';
         var toMove = [];
@@ -639,9 +647,15 @@
             var bb = p.getBBox();
             var cx = bb.x + bb.width/2;
             var cy = bb.y + bb.height/2;
-            if(ptInPista(cx, cy)){
-              toMove.push(p);
+            if(!ptInPista(cx, cy)) return;
+            var excluded = false;
+            for(var i=0; i<excludeBoxes.length; i++){
+              var eb = excludeBoxes[i];
+              if(cx >= eb.x && cx <= eb.x+eb.width && cy >= eb.y && cy <= eb.y+eb.height){
+                excluded = true; break;
+              }
             }
+            if(!excluded) toMove.push(p);
           } catch(e){}
         });
         toMove.forEach(function(p){ pistaGroup.appendChild(p); });
