@@ -103,7 +103,7 @@
     .zone-sublabel { fill:rgba(255,255,255,0.6); font-family:var(--font); font-weight:400; pointer-events:none; text-anchor:middle; }
     .zone-badge-g { pointer-events:none; }
     .zone-badge-g circle { fill:var(--color-primary); transition:r 0.2s; }
-    .zone-badge-g text { fill:#fff; font-family:var(--font); font-weight:700; font-size:8px; text-anchor:middle; dominant-baseline:central; }
+    .zone-badge-g text { fill:#fff; font-family:var(--font); font-weight:700; font-size:7px; text-anchor:middle; dominant-baseline:central; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
     .cards-section { padding:0 0 8px; }
@@ -156,6 +156,18 @@
     .ticket-row .ticket-notch::before,.ticket-row .ticket-notch::after { content:''; position:absolute; left:0; width:16px; height:8px; background:var(--color-bg); }
     .ticket-row .ticket-notch::before { top:0; border:1px solid var(--ticket-border); border-top:none; border-radius:0 0 8px 8px; }
     .ticket-row .ticket-notch::after { bottom:0; border:1px solid var(--ticket-border); border-bottom:none; border-radius:8px 8px 0 0; }
+
+    /* ═══ Radio-style rows (Mesas) ═══ */
+    .ticket-row-radio { display:flex; align-items:center; gap:12px; padding:16px; border:1px solid var(--color-border); border-radius:10px; margin-bottom:12px; cursor:pointer; transition:border-color 0.2s, background 0.2s; }
+    .ticket-row-radio .radio-circle { width:22px; height:22px; border-radius:50%; border:2px solid var(--color-border); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s; }
+    .ticket-row-radio .radio-circle::after { content:''; width:12px; height:12px; border-radius:50%; background:transparent; transition:background 0.2s; }
+    .ticket-row-radio .radio-body { flex:1; min-width:0; }
+    .ticket-row-radio .radio-name { font-size:14px; font-weight:600; line-height:20px; color:var(--color-text-main); }
+    .ticket-row-radio .radio-info { font-size:13px; color:var(--color-primary); cursor:pointer; margin-top:2px; }
+    .ticket-row-radio .radio-price { font-size:15px; font-weight:700; color:var(--color-text-main); white-space:nowrap; }
+    .ticket-row-radio.active { border-color:var(--color-primary); background:var(--color-primary-weak); }
+    .ticket-row-radio.active .radio-circle { border-color:var(--color-primary); }
+    .ticket-row-radio.active .radio-circle::after { background:var(--color-primary); }
 
     /* ═══ Reviews ═══ */
     .reviews { padding:24px 16px; }
@@ -234,10 +246,10 @@
   <!-- ═══ HERO ═══ -->
   <div class="hero" id="heroCarousel">
     <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=800&h=800&fit=crop" alt="LOOP 4.0 en Fabrik"></div>
-      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&h=800&fit=crop" alt="Fabrik interior"></div>
-      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1545128485-c400e7702796?w=800&h=800&fit=crop" alt="DJ set"></div>
-      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=800&fit=crop" alt="VIP"></div>
+      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80" alt="LOOP 4.0 en Fabrik"></div>
+      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80" alt="Fabrik interior"></div>
+      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=800&q=80" alt="DJ set"></div>
+      <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80" alt="VIP"></div>
     </div>
     <button class="nav-prev" aria-label="Prev"></button>
     <button class="nav-next" aria-label="Next"></button>
@@ -446,16 +458,16 @@
      DATA
      ═══════════════════════════ */
   var ZONE_IMGS = {
-    'dj-booth':      'https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=560&h=280&fit=crop',
-    'cristal':       'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=560&h=280&fit=crop',
-    'vip':           'https://images.unsplash.com/photo-1545128485-c400e7702796?w=560&h=280&fit=crop',
-    'palco-izq':     'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=560&h=280&fit=crop',
-    'palco-dcha':    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=560&h=280&fit=crop',
-    'backstage-izq': 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=560&h=280&fit=crop',
-    'backstage-dcha':'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=560&h=280&fit=crop',
-    'cielo':         'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=560&h=280&fit=crop',
-    'pista-izq':     'https://images.unsplash.com/photo-1504680177321-2e6a879aac86?w=560&h=280&fit=crop',
-    'pista-dcha':    'https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?w=560&h=280&fit=crop'
+    'dj-booth':      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=560&q=80',
+    'cristal':       'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=560&q=80',
+    'vip':           'https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=560&q=80',
+    'palco-izq':     'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=560&q=80',
+    'palco-dcha':    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=560&q=80',
+    'backstage-izq': 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=560&q=80',
+    'backstage-dcha':'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=560&q=80',
+    'cielo':         'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=560&q=80',
+    'pista-izq':     'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=560&q=80',
+    'pista-dcha':    'https://images.unsplash.com/photo-1504680177321-2e6a879aac86?w=560&q=80'
   };
 
   var ZONES = [
@@ -549,24 +561,38 @@
     panel.setAttribute('data-tab', tab.id);
     if(ti>0) panel.style.display='none';
 
-    tab.tickets.forEach(function(t){
-      panel.innerHTML +=
-        '<div class="ticket-row qty-zero" data-price="'+t.price+'"'+(t.zoneId?' data-zone="'+t.zoneId+'"':'')+'>'+
-          '<div class="ticket-content">'+
-            '<div class="ticket-name">'+t.name+'</div>'+
-            '<div class="ticket-desc">'+t.desc+'</div>'+
-            '<div class="ticket-price">\u20ac'+t.price.toFixed(2)+'</div>'+
-          '</div>'+
-          '<div class="ticket-notch"></div>'+
-          '<div class="ticket-selector-right">'+
-            '<div class="stepper ticket-amount">'+
-              '<button class="amt-btn minus">\u2212</button>'+
-              '<span class="amt-count">0</span>'+
-              '<button class="amt-btn plus">+</button>'+
+    if(tab.id === 'mesas'){
+      tab.tickets.forEach(function(t, ri){
+        panel.innerHTML +=
+          '<div class="ticket-row-radio'+(ri===0?' active':'')+'" data-price="'+t.price+'" data-zone="'+t.zoneId+'">'+
+            '<div class="radio-circle"></div>'+
+            '<div class="radio-body">'+
+              '<div class="radio-name">'+t.name+'</div>'+
+              '<div class="radio-info">'+t.desc+'</div>'+
             '</div>'+
-          '</div>'+
-        '</div>';
-    });
+            '<div class="radio-price">'+t.price.toFixed(2)+' \u20ac</div>'+
+          '</div>';
+      });
+    } else {
+      tab.tickets.forEach(function(t, ri){
+        panel.innerHTML +=
+          '<div class="ticket-row'+(ri===0?' selected':' qty-zero')+'" data-price="'+t.price+'">'+
+            '<div class="ticket-content">'+
+              '<div class="ticket-name">'+t.name+'</div>'+
+              '<div class="ticket-desc">'+t.desc+'</div>'+
+              '<div class="ticket-price">\u20ac'+t.price.toFixed(2)+'</div>'+
+            '</div>'+
+            '<div class="ticket-notch"></div>'+
+            '<div class="ticket-selector-right">'+
+              '<div class="stepper ticket-amount">'+
+                '<button class="amt-btn minus">\u2212</button>'+
+                '<span class="amt-count">'+(ri===0?'1':'0')+'</span>'+
+                '<button class="amt-btn plus">+</button>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+      });
+    }
     ticketPanels.appendChild(panel);
   });
 
@@ -576,22 +602,44 @@
   var mapGroups = document.querySelectorAll('.zone-group');
   var allCards = document.querySelectorAll('.zone-card');
 
-  function selectZone(zoneId){
+  function selectMesaRadio(zoneId){
+    var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
+    if(!mesasPanel) return;
+    mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){
+      r.classList.toggle('active', r.getAttribute('data-zone')===zoneId);
+    });
     mapGroups.forEach(function(g){ g.classList.toggle('active', g.getAttribute('data-zone')===zoneId); });
     allCards.forEach(function(c){ c.classList.toggle('active', c.getAttribute('data-zone')===zoneId); });
+    updateBadges();
+    updateStickyBtn();
+  }
+
+  function selectZone(zoneId){
+    selectMesaRadio(zoneId);
     var activeCard = cardsScroll.querySelector('.zone-card[data-zone="'+zoneId+'"]');
     if(activeCard) activeCard.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-
     switchTicketTab('mesas');
-    var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
-    if(mesasPanel){
-      var targetRow = mesasPanel.querySelector('[data-zone="'+zoneId+'"]');
-      if(targetRow){
-        targetRow.scrollIntoView({behavior:'smooth',block:'nearest'});
-        targetRow.style.transition='background 0.3s';
-        targetRow.style.background='var(--color-primary-weak)';
-        setTimeout(function(){ targetRow.style.background=''; },1200);
+  }
+
+  function preselectFirstInTab(tabId){
+    var panel = ticketPanels.querySelector('[data-tab="'+tabId+'"]');
+    if(!panel) return;
+    if(tabId === 'mesas'){
+      var first = panel.querySelector('.ticket-row-radio');
+      if(first){
+        var zId = first.getAttribute('data-zone');
+        selectMesaRadio(zId);
+        var card = cardsScroll.querySelector('.zone-card[data-zone="'+zId+'"]');
+        if(card) card.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
       }
+    } else {
+      var rows = panel.querySelectorAll('.ticket-row');
+      rows.forEach(function(r, i){
+        var cEl = r.querySelector('.amt-count');
+        cEl.textContent = (i===0)?'1':'0';
+        r.classList.toggle('qty-zero', i!==0);
+        r.classList.toggle('selected', i===0);
+      });
     }
     updateStickyBtn();
   }
@@ -599,6 +647,7 @@
   function switchTicketTab(tabId){
     ticketPills.querySelectorAll('.ticket-pill').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-tab')===tabId); });
     ticketPanels.querySelectorAll('.ticket-panel').forEach(function(p){ p.style.display = p.getAttribute('data-tab')===tabId?'':'none'; });
+    preselectFirstInTab(tabId);
   }
 
   mapGroups.forEach(function(g){
@@ -613,37 +662,41 @@
     var pill = e.target.closest('.ticket-pill');
     if(!pill) return;
     switchTicketTab(pill.getAttribute('data-tab'));
-    updateStickyBtn();
   });
 
   /* ═══════════════════════════
-     QUANTITY STEPPER
+     MESAS: radio click handler
      ═══════════════════════════ */
   ticketPanels.addEventListener('click', function(e){
+    var radio = e.target.closest('.ticket-row-radio');
+    if(radio){
+      var zId = radio.getAttribute('data-zone');
+      selectMesaRadio(zId);
+      var card = cardsScroll.querySelector('.zone-card[data-zone="'+zId+'"]');
+      if(card) card.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      return;
+    }
     var btn = e.target.closest('.amt-btn');
     if(!btn) return;
     var row = btn.closest('.ticket-row');
     var cEl = row.querySelector('.amt-count');
     var c = parseInt(cEl.textContent,10);
-    if(btn.classList.contains('plus')) c = Math.min(c+1, row.hasAttribute('data-zone')?3:10);
+    if(btn.classList.contains('plus')) c = Math.min(c+1, 10);
     else c = Math.max(c-1,0);
     cEl.textContent = c;
     row.classList.toggle('qty-zero', c===0);
     row.classList.toggle('selected', c>0);
-    updateBadges();
     updateStickyBtn();
   });
 
   function updateBadges(){
+    var activeRadio = ticketPanels.querySelector('.ticket-row-radio.active');
+    var activeZone = activeRadio ? activeRadio.getAttribute('data-zone') : null;
     ZONES.forEach(function(z){
-      var total = 0;
-      ticketPanels.querySelectorAll('[data-zone="'+z.id+'"]').forEach(function(r){
-        total += parseInt(r.querySelector('.amt-count').textContent,10);
-      });
       document.querySelectorAll('.zone-badge-g[data-zone="'+z.id+'"]').forEach(function(bg){
         var circle = bg.querySelector('circle');
         var text = bg.querySelector('text');
-        if(total>0){ circle.setAttribute('r','10'); text.textContent=total; }
+        if(z.id === activeZone){ circle.setAttribute('r','8'); text.textContent='\u2713'; }
         else { circle.setAttribute('r','0'); text.textContent=''; }
       });
     });
@@ -657,19 +710,35 @@
   var stickyMode = 'tickets';
   var hasSeen = false;
 
+  function getActiveTabId(){
+    var active = ticketPills.querySelector('.ticket-pill.active');
+    return active ? active.getAttribute('data-tab') : 'general';
+  }
+
   function getTotal(){
     var t=0;
-    ticketPanels.querySelectorAll('.ticket-row').forEach(function(r){
-      var c=parseInt(r.querySelector('.amt-count').textContent,10);
-      if(c>0) t+=parseFloat(r.getAttribute('data-price'))*c;
-    });
+    var tabId = getActiveTabId();
+    if(tabId === 'mesas'){
+      var sel = ticketPanels.querySelector('.ticket-row-radio.active');
+      if(sel) t = parseFloat(sel.getAttribute('data-price'));
+    } else {
+      var panel = ticketPanels.querySelector('[data-tab="'+tabId+'"]');
+      if(panel){
+        panel.querySelectorAll('.ticket-row').forEach(function(r){
+          var c=parseInt(r.querySelector('.amt-count').textContent,10);
+          if(c>0) t+=parseFloat(r.getAttribute('data-price'))*c;
+        });
+      }
+    }
     return t;
   }
 
   function updateStickyBtn(){
     if(stickyMode==='getit'){
       var t=getTotal();
-      if(t>0){ stickyBtn.textContent='\u20ac'+t.toFixed(2)+' \u2014 Reservar'; stickyBtn.disabled=false; }
+      var tabId = getActiveTabId();
+      var label = tabId==='mesas' ? 'Comprar ahora' : 'Comprar';
+      if(t>0){ stickyBtn.textContent=t.toFixed(2)+' \u20ac \u2014 '+label; stickyBtn.disabled=false; }
       else { stickyBtn.textContent='Selecciona entrada'; stickyBtn.disabled=false; }
     }
   }
@@ -690,7 +759,7 @@
       if(getTotal()>0){ stickyMode='getit'; updateStickyBtn(); }
     } else {
       if(getTotal()<=0) return;
-      alert('Reserva confirmada por \u20ac'+getTotal().toFixed(2)+'.\n\nGracias por reservar en Fabrik Madrid.\nRecibirás un email de confirmación.');
+      alert('Reserva confirmada por '+getTotal().toFixed(2)+' \u20ac.\n\nGracias por reservar en Fabrik Madrid.\nRecibirás un email de confirmación.');
     }
   });
 
