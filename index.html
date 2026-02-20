@@ -106,7 +106,7 @@
     .map-dancefloor { fill:#e8e8e8; stroke:#999; stroke-width:1.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
     .map-dancefloor:hover { fill:#d5d5d5; stroke:#777; }
     .map-dancefloor.active { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:2; }
-    #sala { pointer-events:none; filter:saturate(0) brightness(0.7) contrast(0.6); opacity:0.9; fill:#aaa; }
+    #sala { pointer-events:none; filter:saturate(0) brightness(0.5) contrast(0.7); opacity:0.95; fill:#aaa; }
     #sala path:not([fill]), #sala polygon:not([fill]), #sala polyline:not([fill]), #sala rect:not([fill]) { fill:#aaa !important; }
     #NOMBRES { pointer-events:none; }
     #NOMBRES path, #NOMBRES polyline { stroke:none; }
@@ -621,6 +621,18 @@
           highlightDanceFloor(true);
           switchTicketTab('general');
         });
+        var pistaLabel = document.createElementNS('http://www.w3.org/2000/svg','text');
+        pistaLabel.setAttribute('x','508');
+        pistaLabel.setAttribute('y','383');
+        pistaLabel.setAttribute('text-anchor','middle');
+        pistaLabel.setAttribute('font-size','28');
+        pistaLabel.setAttribute('font-weight','900');
+        pistaLabel.setAttribute('font-family','Inter,system-ui,sans-serif');
+        pistaLabel.setAttribute('fill','#333');
+        pistaLabel.setAttribute('pointer-events','none');
+        pistaLabel.textContent = 'PISTA';
+        pistaLabel.id = 'pistaLabel';
+        svgEl.appendChild(pistaLabel);
       }
 
       var nombres = svgEl.querySelector('#NOMBRES');
@@ -698,19 +710,22 @@
     });
   }
 
-  var danceFloorZoneIds = ['pista-izq','pista-dcha'];
+  var labelsOnBlue = ['pista-izq','pista-dcha'];
 
   function updateLabelColors(){
     var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
     var bsActive = backstageEl && backstageEl.classList.contains('active');
     zoneLabelPairs.forEach(function(p){
-      var active = p.zone.classList.contains('active');
-      if(!active && dfActive){
+      var white = false;
+      if(dfActive){
         var zId = p.zone.getAttribute('data-zone');
-        if(danceFloorZoneIds.indexOf(zId) !== -1) active = true;
+        if(labelsOnBlue.indexOf(zId) !== -1) white = true;
       }
-      p.label.style.fill = active ? '#fff' : '#333';
+      if(bsActive && p.zone === backstageEl) white = true;
+      p.label.style.fill = white ? '#fff' : '#333';
     });
+    var pl = document.getElementById('pistaLabel');
+    if(pl) pl.style.fill = dfActive ? '#fff' : '#333';
   }
 
   function clearAllMapHighlights(){
