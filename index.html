@@ -693,9 +693,19 @@
     });
   }
 
+  function pointInPolygon(px, py, poly){
+    var inside = false;
+    for(var i=0, j=poly.length-1; i<poly.length; j=i++){
+      var xi=poly[i][0], yi=poly[i][1], xj=poly[j][0], yj=poly[j][1];
+      if((yi>py)!==(yj>py) && px < (xj-xi)*(py-yi)/(yj-yi)+xi) inside = !inside;
+    }
+    return inside;
+  }
+
+  var dfPoly = [[509,251],[721,374],[507,507],[295,384]];
+
   function updateLabelColors(){
     var dfActive = danceFloorEl && danceFloorEl.classList.contains('active');
-    var dfBox = dfActive ? danceFloorEl.getBBox() : null;
     var bsActive = backstageEl && backstageEl.classList.contains('active');
     var bsBox = bsActive ? backstageEl.getBBox() : null;
     zoneLabelPairs.forEach(function(p){
@@ -704,9 +714,8 @@
         var lb = p.label.getBBox();
         var cx = lb.x + lb.width/2;
         var cy = lb.y + lb.height/2;
-        var pad = 20;
-        if(dfActive && dfBox && cx>=dfBox.x-pad && cx<=dfBox.x+dfBox.width+pad && cy>=dfBox.y-pad && cy<=dfBox.y+dfBox.height+pad) active = true;
-        if(bsActive && bsBox && cx>=bsBox.x-pad && cx<=bsBox.x+bsBox.width+pad && cy>=bsBox.y-pad && cy<=bsBox.y+bsBox.height+pad) active = true;
+        if(dfActive && pointInPolygon(cx, cy, dfPoly)) active = true;
+        if(bsActive && bsBox && cx>=bsBox.x && cx<=bsBox.x+bsBox.width && cy>=bsBox.y && cy<=bsBox.y+bsBox.height) active = true;
       }
       p.label.style.fill = active ? '#fff' : '#333';
     });
