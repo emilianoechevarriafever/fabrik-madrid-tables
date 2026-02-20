@@ -621,7 +621,11 @@
         r.classList.toggle('qty-zero', i!==0);
         r.classList.toggle('selected', i===0);
       });
+      var mesasPanel = ticketPanels.querySelector('[data-tab="mesas"]');
+      if(mesasPanel) mesasPanel.querySelectorAll('.ticket-row-radio').forEach(function(r){ r.classList.remove('active'); });
+      allCards.forEach(function(c){ c.classList.remove('active'); });
       highlightMapZone('pista');
+      updateBadges();
     }
     updateStickyBtn();
   }
