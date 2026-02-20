@@ -98,11 +98,11 @@
     .ticket-selector .cards-section .cards-subtitle { padding-left:32px; padding-right:32px; }
     .ticket-selector .cards-scroll { padding-left:16px; padding-right:16px; }
     .map-title { font-size:14px; font-weight:600; color:var(--color-text-subtle); margin-bottom:12px; text-align:center; }
-    .floor-map-wrap { position:relative; width:100%; background:#fff; border-radius:12px; overflow:hidden; padding:8px; border:1px solid var(--color-border); }
+    .floor-map-wrap { position:relative; width:100%; background:#fff; border-radius:12px; overflow:hidden; padding:8px; border:1px solid var(--color-border); min-height:200px; }
     .floor-map-wrap svg { width:100%; height:auto; display:block; }
-    .map-zone, .map-zone path { fill:#b5b5b5; cursor:pointer; transition:fill 0.25s; }
-    .map-zone:hover, .map-zone:hover path { fill:#8a8a8a; }
-    .map-zone.active, .map-zone.active path { fill:var(--color-primary); }
+    .map-zone, .map-zone path { fill:#bbb; stroke:#999; stroke-width:0.5; cursor:pointer; transition:fill 0.25s, stroke 0.25s; }
+    .map-zone:hover, .map-zone:hover path { fill:#999; stroke:#777; }
+    .map-zone.active, .map-zone.active path { fill:var(--color-primary); stroke:var(--color-primary-hover); stroke-width:1; }
     #NOMBRES { pointer-events:none; }
 
     /* ═══ ZONE CARDS — horizontal swipe ═══ */
