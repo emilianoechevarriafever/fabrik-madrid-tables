@@ -281,121 +281,97 @@
     <p>📅 7 de marzo de 2026<br>🕒 20:00h – 06:00h<br>📍 FABRIK, Av. de la Industria, 82, 28970 Humanes de Madrid<br>👤 Mayores de 18 años<br>🎟️ Las últimas entradas disponibles se venderán en taquilla</p>
   </div>
 
-  <!-- ═══ MAP + CARDS HEADER ═══ -->
+  <!-- ═══ TICKET SELECTOR ═══ -->
   <div class="section-header" id="ticket-section">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.25 13.5" fill="none"><path d="M4.5 4.5C4.5 3.90234 4.99219 3.375 5.625 3.375H14.625C15.2227 3.375 15.75 3.90234 15.75 4.5V9C15.75 9.63281 15.2227 10.125 14.625 10.125H5.625C4.99219 10.125 4.5 9.63281 4.5 9V4.5ZM5.625 9H14.625V4.5H5.625V9ZM20.25 2.25V5.0625C19.3008 5.0625 18.5625 5.83594 18.5625 6.75C18.5625 7.69922 19.3008 8.4375 20.25 8.4375V11.25C20.25 12.5156 19.2305 13.5 18 13.5H2.25C0.984375 13.5 0 12.5156 0 11.25V8.4375C0.914062 8.4375 1.6875 7.69922 1.6875 6.75C1.6875 5.83594 0.914062 5.0625 0 5.0625V2.25C0 1.01953 0.984375 0 2.25 0H18C19.2305 0 20.25 1.01953 20.25 2.25ZM1.125 4.18359C2.10938 4.60547 2.8125 5.625 2.8125 6.75C2.8125 7.91016 2.10938 8.89453 1.125 9.35156V11.25C1.125 11.8828 1.61719 12.375 2.25 12.375H18C18.5977 12.375 19.125 11.8828 19.125 11.25V9.35156C18.1055 8.89453 17.4375 7.91016 17.4375 6.75C17.4375 5.625 18.1055 4.60547 19.125 4.18359V2.25C19.125 1.65234 18.5977 1.125 18 1.125H2.25C1.61719 1.125 1.125 1.65234 1.125 2.25V4.18359Z" fill="#06232C"/></svg>
-    <h2>Explora las zonas</h2>
+    <h2>Elige tu entrada</h2>
   </div>
-
-  <!-- ═══ INTERACTIVE MAP ═══ -->
-  <div class="map-section">
-    <div class="map-title">Toca una zona del mapa o desliza las cards</div>
-    <div class="floor-map-wrap">
-      <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- Stage / DJ area -->
-        <rect x="120" y="4" width="120" height="16" rx="4" fill="#444" opacity="0.6"/>
-        <text x="180" y="14" fill="#888" font-family="Montserrat" font-size="7" font-weight="600" text-anchor="middle">ESCENARIO</text>
-
-        <!-- Backstage Izq -->
-        <g class="zone-group" data-zone="backstage-izq">
-          <rect class="zone-bg" x="82" y="24" width="70" height="40" rx="6" fill="#e74c3c" opacity="0.4"/>
-          <text class="zone-label" x="117" y="43" font-size="8">BACKSTAGE</text>
-          <text class="zone-sublabel" x="117" y="54" font-size="7">IZQ</text>
-          <g class="zone-badge-g" data-zone="backstage-izq"><circle cx="142" cy="30" r="0"/><text x="142" y="30"></text></g>
-        </g>
-
-        <!-- DJ Booth -->
-        <g class="zone-group" data-zone="dj-booth">
-          <rect class="zone-bg" x="156" y="24" width="48" height="40" rx="6" fill="#f1c40f" opacity="0.4"/>
-          <text class="zone-label" x="180" y="43" font-size="8">DJ</text>
-          <text class="zone-sublabel" x="180" y="54" font-size="7">BOOTH</text>
-          <g class="zone-badge-g" data-zone="dj-booth"><circle cx="194" cy="30" r="0"/><text x="194" y="30"></text></g>
-        </g>
-
-        <!-- Backstage Dcha -->
-        <g class="zone-group" data-zone="backstage-dcha">
-          <rect class="zone-bg" x="208" y="24" width="70" height="40" rx="6" fill="#e74c3c" opacity="0.4"/>
-          <text class="zone-label" x="243" y="43" font-size="8">BACKSTAGE</text>
-          <text class="zone-sublabel" x="243" y="54" font-size="7">DCHA</text>
-          <g class="zone-badge-g" data-zone="backstage-dcha"><circle cx="268" cy="30" r="0"/><text x="268" y="30"></text></g>
-        </g>
-
-        <!-- Cristal -->
-        <g class="zone-group" data-zone="cristal">
-          <rect class="zone-bg" x="110" y="72" width="140" height="36" rx="6" fill="#9b59b6" opacity="0.4"/>
-          <text class="zone-label" x="180" y="90" font-size="9">CRISTAL</text>
-          <text class="zone-sublabel" x="180" y="101" font-size="7">1ª fila</text>
-          <g class="zone-badge-g" data-zone="cristal"><circle cx="240" cy="78" r="0"/><text x="240" y="78"></text></g>
-        </g>
-
-        <!-- Palco Izq -->
-        <g class="zone-group" data-zone="palco-izq">
-          <rect class="zone-bg" x="8" y="72" width="56" height="100" rx="6" fill="#3498db" opacity="0.4"/>
-          <text class="zone-label" x="36" y="118" font-size="8">PALCO</text>
-          <text class="zone-sublabel" x="36" y="129" font-size="7">IZQ</text>
-          <g class="zone-badge-g" data-zone="palco-izq"><circle cx="52" cy="78" r="0"/><text x="52" y="78"></text></g>
-        </g>
-
-        <!-- Palco Dcha -->
-        <g class="zone-group" data-zone="palco-dcha">
-          <rect class="zone-bg" x="296" y="72" width="56" height="100" rx="6" fill="#3498db" opacity="0.4"/>
-          <text class="zone-label" x="324" y="118" font-size="8">PALCO</text>
-          <text class="zone-sublabel" x="324" y="129" font-size="7">DCHA</text>
-          <g class="zone-badge-g" data-zone="palco-dcha"><circle cx="340" cy="78" r="0"/><text x="340" y="78"></text></g>
-        </g>
-
-        <!-- PISTA label (non-interactive center) -->
-        <text x="180" y="155" fill="#555" font-family="Montserrat" font-size="14" font-weight="700" text-anchor="middle" opacity="0.3">P I S T A</text>
-
-        <!-- Pista Izq -->
-        <g class="zone-group" data-zone="pista-izq">
-          <rect class="zone-bg" x="72" y="130" width="60" height="42" rx="6" fill="#2ecc71" opacity="0.4"/>
-          <text class="zone-label" x="102" y="149" font-size="8">PISTA</text>
-          <text class="zone-sublabel" x="102" y="160" font-size="7">IZQ</text>
-          <g class="zone-badge-g" data-zone="pista-izq"><circle cx="122" cy="136" r="0"/><text x="122" y="136"></text></g>
-        </g>
-
-        <!-- Pista Dcha -->
-        <g class="zone-group" data-zone="pista-dcha">
-          <rect class="zone-bg" x="228" y="130" width="60" height="42" rx="6" fill="#2ecc71" opacity="0.4"/>
-          <text class="zone-label" x="258" y="149" font-size="8">PISTA</text>
-          <text class="zone-sublabel" x="258" y="160" font-size="7">DCHA</text>
-          <g class="zone-badge-g" data-zone="pista-dcha"><circle cx="278" cy="136" r="0"/><text x="278" y="136"></text></g>
-        </g>
-
-        <!-- VIP -->
-        <g class="zone-group" data-zone="vip">
-          <rect class="zone-bg" x="72" y="194" width="216" height="44" rx="6" fill="#e67e22" opacity="0.4"/>
-          <text class="zone-label" x="180" y="216" font-size="10">VIP</text>
-          <text class="zone-sublabel" x="180" y="228" font-size="7">Vista panorámica</text>
-          <g class="zone-badge-g" data-zone="vip"><circle cx="276" cy="200" r="0"/><text x="276" y="200"></text></g>
-        </g>
-
-        <!-- Cielo -->
-        <g class="zone-group" data-zone="cielo">
-          <rect class="zone-bg" x="110" y="250" width="140" height="40" rx="6" fill="#1abc9c" opacity="0.4"/>
-          <text class="zone-label" x="180" y="270" font-size="10">CIELO</text>
-          <text class="zone-sublabel" x="180" y="282" font-size="7">Zona más alta</text>
-          <g class="zone-badge-g" data-zone="cielo"><circle cx="240" cy="256" r="0"/><text x="240" y="256"></text></g>
-        </g>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ═══ ZONE CARDS (horizontal swipe) ═══ -->
-  <div class="cards-section">
-    <div class="cards-title">Explora las zonas de reservados</div>
-    <div class="cards-subtitle">Vive el evento desde una mesa con acceso preferente y servicios exclusivos.</div>
-    <div class="cards-scroll" id="cardsScroll"></div>
-  </div>
-
-  <!-- ═══ TICKET SELECTOR ═══ -->
   <div class="ticket-selector">
     <div class="no-fees-banner">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
       <span>Sin comisiones de reserva</span>
     </div>
     <div class="ticket-pills" id="ticketPills"></div>
+
+    <!-- Map + Cards: shown only on Mesas tab -->
+    <div id="mesasVisuals">
+      <div class="map-section">
+        <div class="map-title">Toca una zona del mapa o desliza las cards</div>
+        <div class="floor-map-wrap">
+          <svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg">
+            <rect x="120" y="4" width="120" height="16" rx="4" fill="#444" opacity="0.6"/>
+            <text x="180" y="14" fill="#888" font-family="Montserrat" font-size="7" font-weight="600" text-anchor="middle">ESCENARIO</text>
+            <g class="zone-group" data-zone="backstage-izq">
+              <rect class="zone-bg" x="82" y="24" width="70" height="40" rx="6" fill="#e74c3c" opacity="0.4"/>
+              <text class="zone-label" x="117" y="43" font-size="8">BACKSTAGE</text>
+              <text class="zone-sublabel" x="117" y="54" font-size="7">IZQ</text>
+              <g class="zone-badge-g" data-zone="backstage-izq"><circle cx="142" cy="30" r="0"/><text x="142" y="30"></text></g>
+            </g>
+            <g class="zone-group" data-zone="dj-booth">
+              <rect class="zone-bg" x="156" y="24" width="48" height="40" rx="6" fill="#f1c40f" opacity="0.4"/>
+              <text class="zone-label" x="180" y="43" font-size="8">DJ</text>
+              <text class="zone-sublabel" x="180" y="54" font-size="7">BOOTH</text>
+              <g class="zone-badge-g" data-zone="dj-booth"><circle cx="194" cy="30" r="0"/><text x="194" y="30"></text></g>
+            </g>
+            <g class="zone-group" data-zone="backstage-dcha">
+              <rect class="zone-bg" x="208" y="24" width="70" height="40" rx="6" fill="#e74c3c" opacity="0.4"/>
+              <text class="zone-label" x="243" y="43" font-size="8">BACKSTAGE</text>
+              <text class="zone-sublabel" x="243" y="54" font-size="7">DCHA</text>
+              <g class="zone-badge-g" data-zone="backstage-dcha"><circle cx="268" cy="30" r="0"/><text x="268" y="30"></text></g>
+            </g>
+            <g class="zone-group" data-zone="cristal">
+              <rect class="zone-bg" x="110" y="72" width="140" height="36" rx="6" fill="#9b59b6" opacity="0.4"/>
+              <text class="zone-label" x="180" y="90" font-size="9">CRISTAL</text>
+              <text class="zone-sublabel" x="180" y="101" font-size="7">1ª fila</text>
+              <g class="zone-badge-g" data-zone="cristal"><circle cx="240" cy="78" r="0"/><text x="240" y="78"></text></g>
+            </g>
+            <g class="zone-group" data-zone="palco-izq">
+              <rect class="zone-bg" x="8" y="72" width="56" height="100" rx="6" fill="#3498db" opacity="0.4"/>
+              <text class="zone-label" x="36" y="118" font-size="8">PALCO</text>
+              <text class="zone-sublabel" x="36" y="129" font-size="7">IZQ</text>
+              <g class="zone-badge-g" data-zone="palco-izq"><circle cx="52" cy="78" r="0"/><text x="52" y="78"></text></g>
+            </g>
+            <g class="zone-group" data-zone="palco-dcha">
+              <rect class="zone-bg" x="296" y="72" width="56" height="100" rx="6" fill="#3498db" opacity="0.4"/>
+              <text class="zone-label" x="324" y="118" font-size="8">PALCO</text>
+              <text class="zone-sublabel" x="324" y="129" font-size="7">DCHA</text>
+              <g class="zone-badge-g" data-zone="palco-dcha"><circle cx="340" cy="78" r="0"/><text x="340" y="78"></text></g>
+            </g>
+            <text x="180" y="155" fill="#555" font-family="Montserrat" font-size="14" font-weight="700" text-anchor="middle" opacity="0.3">P I S T A</text>
+            <g class="zone-group" data-zone="pista-izq">
+              <rect class="zone-bg" x="72" y="130" width="60" height="42" rx="6" fill="#2ecc71" opacity="0.4"/>
+              <text class="zone-label" x="102" y="149" font-size="8">PISTA</text>
+              <text class="zone-sublabel" x="102" y="160" font-size="7">IZQ</text>
+              <g class="zone-badge-g" data-zone="pista-izq"><circle cx="122" cy="136" r="0"/><text x="122" y="136"></text></g>
+            </g>
+            <g class="zone-group" data-zone="pista-dcha">
+              <rect class="zone-bg" x="228" y="130" width="60" height="42" rx="6" fill="#2ecc71" opacity="0.4"/>
+              <text class="zone-label" x="258" y="149" font-size="8">PISTA</text>
+              <text class="zone-sublabel" x="258" y="160" font-size="7">DCHA</text>
+              <g class="zone-badge-g" data-zone="pista-dcha"><circle cx="278" cy="136" r="0"/><text x="278" y="136"></text></g>
+            </g>
+            <g class="zone-group" data-zone="vip">
+              <rect class="zone-bg" x="72" y="194" width="216" height="44" rx="6" fill="#e67e22" opacity="0.4"/>
+              <text class="zone-label" x="180" y="216" font-size="10">VIP</text>
+              <text class="zone-sublabel" x="180" y="228" font-size="7">Vista panorámica</text>
+              <g class="zone-badge-g" data-zone="vip"><circle cx="276" cy="200" r="0"/><text x="276" y="200"></text></g>
+            </g>
+            <g class="zone-group" data-zone="cielo">
+              <rect class="zone-bg" x="110" y="250" width="140" height="40" rx="6" fill="#1abc9c" opacity="0.4"/>
+              <text class="zone-label" x="180" y="270" font-size="10">CIELO</text>
+              <text class="zone-sublabel" x="180" y="282" font-size="7">Zona más alta</text>
+              <g class="zone-badge-g" data-zone="cielo"><circle cx="240" cy="256" r="0"/><text x="240" y="256"></text></g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="cards-section">
+        <div class="cards-title">Explora las zonas de reservados</div>
+        <div class="cards-subtitle">Vive el evento desde una mesa con acceso preferente y servicios exclusivos.</div>
+        <div class="cards-scroll" id="cardsScroll"></div>
+      </div>
+    </div>
+
     <div id="ticketPanels"></div>
   </div>
 
@@ -596,6 +572,8 @@
     ticketPanels.appendChild(panel);
   });
 
+  document.getElementById('mesasVisuals').style.display = 'none';
+
   /* ═══════════════════════════
      SYNC ENGINE: map ↔ cards ↔ tickets
      ═══════════════════════════ */
@@ -644,9 +622,12 @@
     updateStickyBtn();
   }
 
+  var mesasVisuals = document.getElementById('mesasVisuals');
+
   function switchTicketTab(tabId){
     ticketPills.querySelectorAll('.ticket-pill').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-tab')===tabId); });
     ticketPanels.querySelectorAll('.ticket-panel').forEach(function(p){ p.style.display = p.getAttribute('data-tab')===tabId?'':'none'; });
+    mesasVisuals.style.display = tabId==='mesas' ? '' : 'none';
     preselectFirstInTab(tabId);
   }
 
