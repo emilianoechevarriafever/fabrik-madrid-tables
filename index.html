@@ -396,8 +396,7 @@
     'backstage-dcha':'https://images.feverup.com/plan/photo/6d3685ce-08df-11f1-a48a-b25e7cfbb5a6.png',
     'cielo':         'https://images.feverup.com/plan/photo/efb34262-075e-11f1-a6ec-9288092796a9.jpg',
     'pista-izq':     'https://images.feverup.com/plan/photo/8fd5fc0c-0760-11f1-8b77-e619c2a37304.jpg',
-    'pista-dcha':    'https://images.feverup.com/plan/photo/8fd5fc0c-0760-11f1-8b77-e619c2a37304.jpg',
-    'backstage-exp': 'https://images.feverup.com/plan/photo/6d3685ce-08df-11f1-a48a-b25e7cfbb5a6.png'
+    'pista-dcha':    'https://images.feverup.com/plan/photo/8fd5fc0c-0760-11f1-8b77-e619c2a37304.jpg'
   };
 
   var ZONES = [
@@ -431,9 +430,6 @@
     { id:'pista-dcha', name:'PISTA DCHA', price:200, capacity:5, bottles:'1 botella',
       desc:'Vive la experiencia exclusiva de nuestra zona VIP pero como si estuvieras en "el barro". Mesas con botella a pie de pista.',
       perks:['1 botella','Acceso con pulsera y sello','Fast access','Parking VIP'] },
-    { id:'backstage-exp', name:'BACKSTAGE EXPERIENCE', price:90, capacity:1, bottles:'2 consumiciones',
-      desc:'Experiencia Backstage para 1 persona. Acceso a la zona Backstage con las mejores vistas de la main room del club.',
-      perks:['2 consumiciones','Acceso con pulsera y sello','Fast access','Baño privado'] },
   ];
 
   var TICKET_TABS = [
@@ -583,12 +579,9 @@
       var backstageBg = svgEl.querySelector('#backstage');
       if(backstageBg){
         backstageBg.removeAttribute('display');
-        backstageBg.classList.add('map-zone');
-        backstageBg.setAttribute('data-zone', 'backstage-exp');
-        mapZoneEls.push(backstageBg);
-        backstageBg.addEventListener('click', function(){
-          selectZone('backstage-exp');
-        });
+        backstageBg.style.fill = '#333';
+        backstageBg.style.opacity = '0.25';
+        backstageBg.style.pointerEvents = 'none';
       }
 
       var etiquetas = svgEl.querySelector('#etiquetas');
