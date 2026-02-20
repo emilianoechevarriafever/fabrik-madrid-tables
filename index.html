@@ -599,9 +599,12 @@
       var backstageBg = svgEl.querySelector('#backstage');
       if(backstageBg){
         backstageBg.removeAttribute('display');
-        backstageBg.style.fill = '#333';
-        backstageBg.style.opacity = '0.25';
-        backstageBg.style.pointerEvents = 'none';
+        backstageBg.classList.add('map-dancefloor');
+        backstageEl = backstageBg;
+        backstageBg.addEventListener('click', function(){
+          highlightDanceFloor(true);
+          switchTicketTab('general');
+        });
       }
 
       var etiquetas = svgEl.querySelector('#etiquetas');
@@ -657,14 +660,18 @@
   var allCards = document.querySelectorAll('.zone-card');
   var mesasVisuals = document.getElementById('mesasVisuals');
 
+  var backstageEl = null;
+
   function highlightDanceFloor(active){
     if(danceFloorEl) danceFloorEl.classList.toggle('active', !!active);
+    if(backstageEl) backstageEl.classList.toggle('active', !!active);
     mapZoneEls.forEach(function(el){ el.classList.remove('active'); });
     updateLabels(active ? 'dancefloor' : null);
   }
 
   function highlightMapZone(zoneId){
     if(danceFloorEl) danceFloorEl.classList.remove('active');
+    if(backstageEl) backstageEl.classList.remove('active');
     mapZoneEls.forEach(function(el){
       var z = el.getAttribute('data-zone');
       el.classList.toggle('active', z===zoneId);
