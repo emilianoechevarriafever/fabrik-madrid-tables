@@ -644,8 +644,6 @@
         nombres.querySelectorAll('path, polyline').forEach(function(p){
           if(p.getAttribute('fill') === '#dfb834') {
             p.style.display = 'none';
-          } else if(p.getAttribute('d') && p.getAttribute('d').indexOf('M760.91,219.66') === 0) {
-            p.style.display = 'none';
           } else {
             p.style.fill = '#333';
           }
