@@ -661,16 +661,16 @@
         var pistaDchBox = pistaDchEl2 ? pistaDchEl2.getBBox() : null;
         var pistaMinX = 999, pistaMinY = 999, pistaMaxX = 0, pistaMaxY = 0;
         if(pistaIzqBox){
-          pistaMinX = Math.min(pistaMinX, pistaIzqBox.x - 30);
-          pistaMinY = Math.min(pistaMinY, pistaIzqBox.y - 30);
-          pistaMaxX = Math.max(pistaMaxX, pistaIzqBox.x + pistaIzqBox.width + 30);
-          pistaMaxY = Math.max(pistaMaxY, pistaIzqBox.y + pistaIzqBox.height + 30);
+          pistaMinX = Math.min(pistaMinX, pistaIzqBox.x);
+          pistaMinY = Math.min(pistaMinY, pistaIzqBox.y);
+          pistaMaxX = Math.max(pistaMaxX, pistaIzqBox.x + pistaIzqBox.width);
+          pistaMaxY = Math.max(pistaMaxY, pistaIzqBox.y + pistaIzqBox.height);
         }
         if(pistaDchBox){
-          pistaMinX = Math.min(pistaMinX, pistaDchBox.x - 30);
-          pistaMinY = Math.min(pistaMinY, pistaDchBox.y - 30);
-          pistaMaxX = Math.max(pistaMaxX, pistaDchBox.x + pistaDchBox.width + 30);
-          pistaMaxY = Math.max(pistaMaxY, pistaDchBox.y + pistaDchBox.height + 30);
+          pistaMinX = Math.min(pistaMinX, pistaDchBox.x);
+          pistaMinY = Math.min(pistaMinY, pistaDchBox.y);
+          pistaMaxX = Math.max(pistaMaxX, pistaDchBox.x + pistaDchBox.width);
+          pistaMaxY = Math.max(pistaMaxY, pistaDchBox.y + pistaDchBox.height);
         }
         var pistaGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
         pistaGroup.id = 'pistaGroup';
