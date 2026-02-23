@@ -913,6 +913,13 @@
           allCards.forEach(function(c2){ c2.classList.toggle('active', c2.getAttribute('data-zone')===zId); });
           scrollCardIntoView(zId);
         }
+      } else {
+        var tvName = (item.querySelector('.tv-name') || {}).textContent || '';
+        if(tvName.toLowerCase().indexOf('backstage') !== -1){
+          highlightBackstageOnly();
+        } else {
+          highlightDanceFloor(true);
+        }
       }
       updateStickyBtn();
       return;
